@@ -1,38 +1,28 @@
 package com.iesmb.gestionalumnos.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "registro_notas")
 public class RegistroNotas {
 	
 	@Id
-    @Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	//AÚN NO SE PUEDEN HACER LAS RELACIONES HASTA NO TENER LAS OTRAS ENTIDADES
-    @Column(name = "id_alumno")
 	private Integer id_alumno;
     
-    @Column(name = "id_curso")
     private Integer id_curso;
 
-    @Column(name = "nota")
 	private double nota;
     
-    @Column(name = "tipo_evaluacion")
 	private String tipo_evaluacion;
     
-    @Column(name = "peso_porcentual")
 	private String peso_porcentual;
     
-    @Column(name = "observacion")
 	private String observacion;
 	
 	public Integer getId() {
