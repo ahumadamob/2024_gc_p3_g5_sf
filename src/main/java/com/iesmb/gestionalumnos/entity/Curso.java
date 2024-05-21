@@ -1,6 +1,10 @@
-package com.iesmb.gestionalumnos.Entity;
+package com.iesmb.gestionalumnos.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Curso {
@@ -8,14 +12,23 @@ public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String materia;
-    private String profesor;
+    
     private int anioAcademico;
+    
     private String semestre;
+    
     private String horario;
+    
     private String aula;
+    
     private int cupoMaximo;
+    
     private String periodoEvaluacion;
+    
+    @OneToOne(mappedBy = "curso")
+    private Profesor profesor;
 
 
     public Long getId() {
@@ -34,13 +47,6 @@ public class Curso {
         this.materia = materia;
     }
 
-    public String getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(String profesor) {
-        this.profesor = profesor;
-    }
 
     public int getAnioAcademico() {
         return anioAcademico;
@@ -89,4 +95,13 @@ public class Curso {
     public void setPeriodoEvaluacion(String periodoEvaluacion) {
         this.periodoEvaluacion = periodoEvaluacion;
     }
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+    
 }
