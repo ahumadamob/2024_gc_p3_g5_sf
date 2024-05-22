@@ -1,4 +1,4 @@
-package com.iesmb.gestionalumnos.Entity;
+package com.iesmb.gestionalumnos.entity;
 
 import jakarta.persistence.*;
 
@@ -9,14 +9,18 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String materia;
-    private String profesor;
+    private String id_profesor;
     private int anioAcademico;
     private String semestre;
     private String horario;
     private String aula;
     private int cupoMaximo;
     private String periodoEvaluacion;
-
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "profesor_id")
+    private Profesor profesor;
 
     public Long getId() {
         return id;
@@ -34,15 +38,15 @@ public class Curso {
         this.materia = materia;
     }
 
-    public String getProfesor() {
-        return profesor;
-    }
+    public String getId_profesor() {
+		return id_profesor;
+	}
 
-    public void setProfesor(String profesor) {
-        this.profesor = profesor;
-    }
+	public void setId_profesor(String id_profesor) {
+		this.id_profesor = id_profesor;
+	}
 
-    public int getAnioAcademico() {
+	public int getAnioAcademico() {
         return anioAcademico;
     }
 
@@ -89,4 +93,14 @@ public class Curso {
     public void setPeriodoEvaluacion(String periodoEvaluacion) {
         this.periodoEvaluacion = periodoEvaluacion;
     }
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+    
+    
 }
