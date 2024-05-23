@@ -9,7 +9,6 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String materia;
-    private String id_profesor;
     private int anioAcademico;
     private String semestre;
     private String horario;
@@ -37,14 +36,6 @@ public class Curso {
     public void setMateria(String materia) {
         this.materia = materia;
     }
-
-    public String getId_profesor() {
-		return id_profesor;
-	}
-
-	public void setId_profesor(String id_profesor) {
-		this.id_profesor = id_profesor;
-	}
 
 	public int getAnioAcademico() {
         return anioAcademico;
