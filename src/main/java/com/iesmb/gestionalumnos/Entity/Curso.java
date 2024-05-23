@@ -1,4 +1,6 @@
-package com.iesmb.gestionalumnos.Entity;
+package com.iesmb.gestionalumnos.entity;
+
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -17,7 +19,13 @@ public class Curso {
     private int cupoMaximo;
     private String periodoEvaluacion;
 
-
+    @ManyToMany
+    @JoinTable(name = "alumnosPorCurso",
+    		joinColumns = {@JoinColumn(name = "id_curso")},
+    		inverseJoinColumns = {@JoinColumn(name = "id_tablaAlumno")})
+    private Set<TablaAlumno> tablaAlumnos;
+    
+    
     public Long getId() {
         return id;
     }
