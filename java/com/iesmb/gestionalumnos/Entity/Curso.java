@@ -1,13 +1,15 @@
-package com.iesmb.gestionalumnos.Entity;
+package com.iesmb.gestionalumnos.entity;
+
+import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
 public class Curso {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_curso;
     private String materia;
     private String profesor;
     private int anioAcademico;
@@ -16,14 +18,15 @@ public class Curso {
     private String aula;
     private int cupoMaximo;
     private String periodoEvaluacion;
-
-
+    @OneToMany(mappedBy = "curso")
+    private List<RegistroNotas> registroNotas;
+    
     public Long getId() {
-        return id;
+        return id_curso;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_curso = id;
     }
 
     public String getMateria() {
@@ -89,4 +92,12 @@ public class Curso {
     public void setPeriodoEvaluacion(String periodoEvaluacion) {
         this.periodoEvaluacion = periodoEvaluacion;
     }
+
+	public List<RegistroNotas> getRegistroNotas() {
+		return registroNotas;
+	}
+
+	public void setRegistroNotas(List<RegistroNotas> registroNotas) {
+		this.registroNotas = registroNotas;
+	}
 }

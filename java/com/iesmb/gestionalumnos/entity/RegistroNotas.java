@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class RegistroNotas {
@@ -25,6 +27,16 @@ public class RegistroNotas {
     
 	private String observacion;
 	
+	@ManyToOne
+    @JoinColumn(name = "curso_id", nullable = false)
+	private Curso curso;
+	
+	public Curso getCurso() {
+		return curso;
+	}
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
 	public Integer getId() {
 		return id;
 	}
