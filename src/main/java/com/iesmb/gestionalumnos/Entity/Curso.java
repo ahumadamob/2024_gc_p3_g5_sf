@@ -1,4 +1,4 @@
-package com.iesmb.gestionalumnos.Entity;
+package com.iesmb.gestionalumnos.entity;
 
 import jakarta.persistence.*;
 
