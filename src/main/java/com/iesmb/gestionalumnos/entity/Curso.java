@@ -31,6 +31,10 @@ public class Curso {
     private Set<TablaAlumno> tablaAlumnos;
     
     
+    @ManyToOne
+    @JoinColumn(name = "profesor_id")
+    private Profesor profesor;
+
     public Long getId() {
         return id;
     }

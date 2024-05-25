@@ -1,14 +1,14 @@
 package com.iesmb.gestionalumnos.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -55,9 +55,8 @@ public class Profesor {
 	@Size(max = 25, message = "El estado no puede superar los 25 caracteres.")
 	private String estado;
 	
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_curso", referencedColumnName = "id")
-    private Curso curso;
+	@OneToMany(mappedBy = "profesor")
+	private List<Curso> cursos;
 
 	public Integer getId() {
 		return id;
@@ -139,14 +138,12 @@ public class Profesor {
 		this.estado = estado;
 	}
 
-	public Curso getCurso() {
-		return curso;
+	public List<Curso> getCursos() {
+		return cursos;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
 	}
-	
 
-	
 }
