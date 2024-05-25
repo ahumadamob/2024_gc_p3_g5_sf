@@ -12,25 +12,25 @@ public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String materia;
-    
+    private String profesor;
     private int anioAcademico;
-    
     private String semestre;
-    
     private String horario;
-    
     private String aula;
-    
     private int cupoMaximo;
-    
     private String periodoEvaluacion;
     
     @OneToOne(mappedBy = "curso")
     private Profesor profesor;
 
-
+    @ManyToMany
+    @JoinTable(name = "alumnosPorCurso",
+    		joinColumns = {@JoinColumn(name = "id_curso")},
+    		inverseJoinColumns = {@JoinColumn(name = "id_tablaAlumno")})
+    private Set<TablaAlumno> tablaAlumnos;
+    
+    
     public Long getId() {
         return id;
     }
@@ -47,6 +47,13 @@ public class Curso {
         this.materia = materia;
     }
 
+    public String getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(String profesor) {
+        this.profesor = profesor;
+    }
 
     public int getAnioAcademico() {
         return anioAcademico;
