@@ -1,8 +1,10 @@
 package com.iesmb.gestionalumnos.entity;
 
-import java.util.Set;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Curso {
@@ -18,6 +20,9 @@ public class Curso {
     private String aula;
     private int cupoMaximo;
     private String periodoEvaluacion;
+    
+    @OneToOne(mappedBy = "curso")
+    private Profesor profesor;
 
     @ManyToMany
     @JoinTable(name = "alumnosPorCurso",
@@ -109,6 +114,5 @@ public class Curso {
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
-    
     
 }
