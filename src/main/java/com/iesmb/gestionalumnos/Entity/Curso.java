@@ -1,5 +1,7 @@
 package com.iesmb.gestionalumnos.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,12 +11,19 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String materia;
+    private String profesor;
     private int anioAcademico;
     private String semestre;
     private String horario;
     private String aula;
     private int cupoMaximo;
     private String periodoEvaluacion;
+
+    @ManyToMany
+    @JoinTable(name = "alumnosPorCurso",
+    		joinColumns = {@JoinColumn(name = "id_curso")},
+    		inverseJoinColumns = {@JoinColumn(name = "id_tablaAlumno")})
+    private Set<TablaAlumno> tablaAlumnos;
     
     
     @ManyToOne
@@ -37,7 +46,15 @@ public class Curso {
         this.materia = materia;
     }
 
-	public int getAnioAcademico() {
+    public String getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(String profesor) {
+        this.profesor = profesor;
+    }
+
+    public int getAnioAcademico() {
         return anioAcademico;
     }
 
