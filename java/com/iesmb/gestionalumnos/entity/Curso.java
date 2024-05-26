@@ -1,4 +1,12 @@
+<<<<<<<< HEAD:java/com/iesmb/gestionalumnos/Entity/Curso.java
 package com.iesmb.gestionalumnos.entity;
+
+import java.util.List;
+|||||||| 5635fe6:src/main/java/com/iesmb/gestionalumnos/Entity/Curso.java
+package com.iesmb.gestionalumnos.Entity;
+========
+package com.iesmb.gestionalumnos.entity;
+>>>>>>>> master:java/com/iesmb/gestionalumnos/entity/Curso.java
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +17,9 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Curso {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_curso;
     private String materia;
     private String profesor;
     private int anioAcademico;
@@ -20,6 +28,14 @@ public class Curso {
     private String aula;
     private int cupoMaximo;
     private String periodoEvaluacion;
+<<<<<<<< HEAD:java/com/iesmb/gestionalumnos/Entity/Curso.java
+    @OneToMany(mappedBy = "curso")
+    private List<RegistroNotas> registroNotas;
+    
+|||||||| 5635fe6:src/main/java/com/iesmb/gestionalumnos/Entity/Curso.java
+
+
+========
     
     @OneToOne(mappedBy = "curso")
     private Profesor profesor;
@@ -35,12 +51,13 @@ public class Curso {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
+>>>>>>>> master:java/com/iesmb/gestionalumnos/entity/Curso.java
     public Long getId() {
-        return id;
+        return id_curso;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_curso = id;
     }
 
     public String getMateria() {
@@ -106,6 +123,17 @@ public class Curso {
     public void setPeriodoEvaluacion(String periodoEvaluacion) {
         this.periodoEvaluacion = periodoEvaluacion;
     }
+<<<<<<<< HEAD:java/com/iesmb/gestionalumnos/Entity/Curso.java
+
+	public List<RegistroNotas> getRegistroNotas() {
+		return registroNotas;
+	}
+
+	public void setRegistroNotas(List<RegistroNotas> registroNotas) {
+		this.registroNotas = registroNotas;
+	}
+|||||||| 5635fe6:src/main/java/com/iesmb/gestionalumnos/Entity/Curso.java
+========
 
 	public Profesor getProfesor() {
 		return profesor;
@@ -115,4 +143,5 @@ public class Curso {
 		this.profesor = profesor;
 	}
     
+>>>>>>>> master:java/com/iesmb/gestionalumnos/entity/Curso.java
 }
