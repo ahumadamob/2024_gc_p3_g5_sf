@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +19,8 @@ public class RegistroAsistencia {
 	private Integer id;
 	
 	@NotNull(message = "Debe ingresar un alumno.")
-	private Integer id_alumno;
+	@ManyToOne
+	private TablaAlumno id_alumno;
 	
 	@NotNull(message = "Debe ingresar un curso.")
 	private Integer id_curso;
@@ -45,11 +47,11 @@ public class RegistroAsistencia {
 		this.id = id;
 	}
 
-	public Integer getId_alumno() {
+	public TablaAlumno getId_alumno() {
 		return id_alumno;
 	}
 
-	public void setId_alumno(Integer id_alumno) {
+	public void setId_alumno(TablaAlumno id_alumno) {
 		this.id_alumno = id_alumno;
 	}
 
