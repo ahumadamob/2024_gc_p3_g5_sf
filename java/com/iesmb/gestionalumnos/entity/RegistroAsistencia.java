@@ -38,20 +38,7 @@ public class RegistroAsistencia {
 	@Size(max = 80, message = "Las observaciones adicionales no deben superar los 80 caracteres.")
 	private String observacionesAdicionales;
 
-	@ManyToOne
-	@JoinColumn(name = "curso_reg_asist")
-	private Curso curso;
-
-
-
-	public Curso getCurso() {
-		return curso;
-	}
-
-	public void setCurso(Curso curso) {
-		this.curso = curso;
-	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -60,11 +47,11 @@ public class RegistroAsistencia {
 		this.id = id;
 	}
 
-	public Integer getId_alumno() {
+	public TablaAlumno getId_alumno() {
 		return id_alumno;
 	}
 
-	public void setId_alumno(Integer id_alumno) {
+	public void setId_alumno(TablaAlumno id_alumno) {
 		this.id_alumno = id_alumno;
 	}
 
