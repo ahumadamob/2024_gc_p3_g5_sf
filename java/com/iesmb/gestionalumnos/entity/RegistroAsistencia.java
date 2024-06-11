@@ -2,8 +2,11 @@ package com.iesmb.gestionalumnos.entity;
 
 import java.time.LocalDateTime;
 
-import com.iesmb.gestionalumnos.Entity.Curso;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +19,11 @@ public class RegistroAsistencia {
 	private Integer id;
 	
 	@NotNull(message = "Debe ingresar un alumno.")
-	private Integer id_alumno;
+	@ManyToOne
+	private TablaAlumno id_alumno;
+	
+	@NotNull(message = "Debe ingresar un curso.")
+	private Integer id_curso;
 	
 	@Past(message = "La fecha y hora ingresadas no sucedieron aún.")
 	private LocalDateTime fecha;
@@ -61,6 +68,13 @@ public class RegistroAsistencia {
 		this.id_alumno = id_alumno;
 	}
 
+	public Integer getId_curso() {
+		return id_curso;
+	}
+
+	public void setId_curso(Integer id_curso) {
+		this.id_curso = id_curso;
+	}
 
 	public LocalDateTime getFecha() {
 		return fecha;
