@@ -1,18 +1,17 @@
-<<<<<<<< HEAD:java/com/iesmb/gestionalumnos/Entity/Curso.java
 package com.iesmb.gestionalumnos.entity;
 
 import java.util.List;
-|||||||| 5635fe6:src/main/java/com/iesmb/gestionalumnos/Entity/Curso.java
-package com.iesmb.gestionalumnos.Entity;
-========
-package com.iesmb.gestionalumnos.entity;
->>>>>>>> master:java/com/iesmb/gestionalumnos/entity/Curso.java
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Curso {
@@ -21,24 +20,16 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_curso;
     private String materia;
-    private String profesor;
     private int anioAcademico;
     private String semestre;
     private String horario;
     private String aula;
     private int cupoMaximo;
     private String periodoEvaluacion;
-<<<<<<<< HEAD:java/com/iesmb/gestionalumnos/Entity/Curso.java
+
     @OneToMany(mappedBy = "curso")
     private List<RegistroNotas> registroNotas;
     
-|||||||| 5635fe6:src/main/java/com/iesmb/gestionalumnos/Entity/Curso.java
-
-
-========
-    
-    @OneToOne(mappedBy = "curso")
-    private Profesor profesor;
 
     @ManyToMany
     @JoinTable(name = "alumnosPorCurso",
@@ -51,7 +42,7 @@ public class Curso {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
->>>>>>>> master:java/com/iesmb/gestionalumnos/entity/Curso.java
+
     public Long getId() {
         return id_curso;
     }
@@ -66,14 +57,6 @@ public class Curso {
 
     public void setMateria(String materia) {
         this.materia = materia;
-    }
-
-    public String getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(String profesor) {
-        this.profesor = profesor;
     }
 
     public int getAnioAcademico() {
@@ -123,7 +106,7 @@ public class Curso {
     public void setPeriodoEvaluacion(String periodoEvaluacion) {
         this.periodoEvaluacion = periodoEvaluacion;
     }
-<<<<<<<< HEAD:java/com/iesmb/gestionalumnos/Entity/Curso.java
+
 
 	public List<RegistroNotas> getRegistroNotas() {
 		return registroNotas;
@@ -132,8 +115,7 @@ public class Curso {
 	public void setRegistroNotas(List<RegistroNotas> registroNotas) {
 		this.registroNotas = registroNotas;
 	}
-|||||||| 5635fe6:src/main/java/com/iesmb/gestionalumnos/Entity/Curso.java
-========
+
 
 	public Profesor getProfesor() {
 		return profesor;
@@ -142,6 +124,5 @@ public class Curso {
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
-    
->>>>>>>> master:java/com/iesmb/gestionalumnos/entity/Curso.java
+
 }
