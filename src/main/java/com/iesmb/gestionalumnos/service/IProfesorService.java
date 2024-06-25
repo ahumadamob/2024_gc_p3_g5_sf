@@ -8,7 +8,7 @@ public interface IProfesorService {
 
 	public List<Profesor> getAll ();
 	public Profesor getById (Integer id);
-	public Profesor save (Profesor turno);
+	public Profesor save (Profesor profesor);
 	public void delete (Integer id);
 	public boolean exists (Integer id);
 	

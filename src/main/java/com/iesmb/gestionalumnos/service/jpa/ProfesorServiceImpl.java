@@ -28,8 +28,8 @@ public class ProfesorServiceImpl implements IProfesorService{
     }	
 
 	@Override
-	public Profesor save(Profesor turno) {
-		return repo.save(turno);
+	public Profesor save(Profesor profesor) {
+		return repo.save(profesor);
 	}
 
 	@Override
