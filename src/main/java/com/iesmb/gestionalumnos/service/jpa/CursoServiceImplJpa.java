@@ -1,0 +1,44 @@
+package com.iesmb.gestionalumnos.service.jpa;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.iesmb.gestionalumnos.entity.Curso;
+import com.iesmb.gestionalumnos.repository.CursoRepository;
+import com.iesmb.gestionalumnos.service.ICursoService;
+
+@Service
+public class CursoServiceImplJpa implements ICursoService {
+	
+	@Autowired
+	private CursoRepository repo;
+
+	@Override
+	public List<Curso> getAll() {
+		return repo.findAll();
+	}
+
+	@Override
+	public Curso getById(Long id) {
+		return repo.findById(id).orElseGet(null);
+	}
+
+	@Override
+	public Curso save(Curso curso) {
+		return repo.save(curso);
+	}
+
+	@Override
+	public void delete(Long id) {
+		repo.deleteById(id);
+		
+	}
+
+	@Override
+	public boolean exists(Long id) {
+		return id == null ? false : repo.existsById(id);
+	}
+
+}
