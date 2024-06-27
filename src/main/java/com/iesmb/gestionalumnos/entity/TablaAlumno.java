@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,7 +25,6 @@ public class TablaAlumno {
 	@Size(max = 30, message = "El apellido no debe superar los 30 caracteres.")
 	private String apellido;
 	@NotNull(message = "La fecha de nacimiento no pueden estar vacía.")
-	@Future(message = "La fecha de nacimiento es incorrecta.")
 	private Date fechaNacimiento;
 	@NotBlank(message = "Debe indicar un correo electrónico.")
 	private String correoElectronico;
@@ -38,7 +36,6 @@ public class TablaAlumno {
     private String numeroTelefono;
     private String genero;
     @NotNull(message = "La fecha de inscripción no pueden estar vacía.")
-	@Future(message = "La fecha de inscripción es incorrecta.")
     private Date fechaInscripcion;
     private String estado;
     
