@@ -1,7 +1,8 @@
-package com.iesmb.gestionalumnos.service;
+package com.iesmb.gestionalumnos.serviceImpl;
 
-import com.iesmb.gestionalumnos.entity.TablaMateria;
+import com.iesmb.gestionalumnos.Entity.TablaMateria;
 import com.iesmb.gestionalumnos.repository.MateriaRepository;
+import com.iesmb.gestionalumnos.service.IMateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ public class MateriaServiceImpl implements IMateriaService {
 
     @Autowired
     private MateriaRepository materiaRepo;
+
 
     @Override
     public List<TablaMateria> getAll() {
