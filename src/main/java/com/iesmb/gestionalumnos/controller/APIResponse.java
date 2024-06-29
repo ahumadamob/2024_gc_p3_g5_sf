@@ -2,7 +2,7 @@ package com.iesmb.gestionalumnos.controller;
 
 import java.util.List;
 
-public class APIResponse<T> {
+public class APIResponse <T> {
     private int status;
     private List<String> messages;
     private T data;
