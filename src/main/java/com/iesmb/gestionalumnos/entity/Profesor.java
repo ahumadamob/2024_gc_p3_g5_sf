@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
@@ -48,7 +49,7 @@ public class Profesor {
 	@Size(max = 25, message = "El genero no puede superar los 25 caracteres.")
 	private String genero;
 	
-	@NotBlank(message = "La fecha de contratacion no puede estar vacía.")
+	@NotNull(message = "La fecha de contratacion no puede estar vacía.")
 	private LocalDate fechaDeContratacion;
 	
 	@NotBlank(message = "El estado no puede estar vacío.")
