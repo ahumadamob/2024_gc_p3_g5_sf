@@ -4,7 +4,7 @@ import java.util.List;
 
 public class APIResponse <T> {
 
-    private int status;
+	private int status;
     private List<String> messages;
     private T data;
 
@@ -16,34 +16,34 @@ public class APIResponse <T> {
     }
 
 
-    public int getStatus() {
-        return status;
-    }
+	public int getStatus() {
+		return status;
+	}
 
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 
-    public List<String> getMessages() {
-        return messages;
-    }
+	public List<String> getMessages() {
+		return messages;
+	}
 
 
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-    }
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
+	}
 
 
-    public T getData() {
-        return data;
-    }
+	public T getData() {
+		return data;
+	}
 
 
-    public void setData(T data) {
-        this.data = data;
-    }
+	public void setData(T data) {
+		this.data = data;
+	}
 
 
 
