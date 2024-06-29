@@ -28,39 +28,40 @@ public class ResponseUtil {
     public static <T> ResponseEntity<APIResponse<T>> created(T data, String message) {
         APIResponse<T> response = new APIResponse<>(HttpStatus.CREATED.value(), addSingleMessage(message), data);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    } 
 
     public static <T> ResponseEntity<APIResponse<T>> error(HttpStatus status, String message) {
         APIResponse<T> response = new APIResponse<>(status.value(), addSingleMessage(message), null);
         return ResponseEntity.status(status).body(response);
-    }
+    }    
 
     public static <T> ResponseEntity<APIResponse<T>> notFound(String message) {
         APIResponse<T> response = new APIResponse<>(HttpStatus.NOT_FOUND.value(), addSingleMessage(message), null);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
+    }    
 
     public static <T> ResponseEntity<APIResponse<T>> badRequest(String message) {
         APIResponse<T> response = new APIResponse<>(HttpStatus.BAD_REQUEST.value(), addSingleMessage(message), null);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
+    } 
     public static <T> ResponseEntity<APIResponse<T>> forbidden(String message) {
         APIResponse<T> response = new APIResponse<>(HttpStatus.FORBIDDEN.value(), addSingleMessage(message), null);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
+    }    
 
     public static <T> ResponseEntity<APIResponse<T>> handleConstraintException(ConstraintViolationException ex) {
-        List<String> errors = new ArrayList<>();
+    	List<String> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             errors.add(violation.getMessage());
         }
         APIResponse<T> response = new APIResponse<T>(HttpStatus.BAD_REQUEST.value(), errors, null);
         return ResponseEntity.badRequest().body(response);
-    }
+    }    
 
     private static List<String> addSingleMessage(String message) {
         List<String> messages = new ArrayList<>();
         messages.add(message);
         return messages;
     }
+
 }
