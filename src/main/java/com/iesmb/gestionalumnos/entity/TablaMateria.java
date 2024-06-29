@@ -1,4 +1,4 @@
-package com.iesmb.gestionalumnos.entity;
+package com.iesmb.gestionalumnos.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
