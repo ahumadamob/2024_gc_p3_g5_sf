@@ -10,7 +10,7 @@ import com.iesmb.gestionalumnos.repository.CursoRepository;
 import com.iesmb.gestionalumnos.service.ICursoService;
 
 @Service
-public class CursoServiceImplJpa implements ICursoService {
+public class CursoServiceImpl implements ICursoService {
 	
 	@Autowired
 	private CursoRepository repo;

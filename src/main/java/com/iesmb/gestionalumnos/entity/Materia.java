@@ -1,42 +1,54 @@
-package com.iesmb.gestionalumnos.Entity;
+package com.iesmb.gestionalumnos.entity;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class TablaMateria {
+public class Materia {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	@NotBlank(message = "El nombre de la materia no puede estar vacío.")
-	@Size(max = 40, message = "El nombre no puede superar los 40 caracteres.")
-	private String nombreMateria;
+	@Size(max = 20, message = "El nombre no puede superar los 20 caracteres.")
+	private String nombre;
 	
-	@NotBlank(message = "El nombre de la descripción no puede estar vacío.")
+	@NotBlank(message = "La descripción no puede estar vacío.")
+	@Size(max = 60, message = "La descripción no puede superar los 60 caracteres.")
 	private String descripcion;
 	
-	@NotBlank(message = "El nombre de los créditos no puede estar vacío.")
+	@NotBlank(message = "Los créditos no pueden estar vacío.")
+	@Size(max = 20, message = "Los créditos no pueden superar los 20 caracteres.")
 	private String creditos;
 	
 	@NotBlank(message = "La cantidad de horas semanales no puede estar vacío.")
-	@Size(max = 2, message = "La cantidad de horas semanales no puede superar los 2 dígitos.")
+    @Min(value = 0, message = "La cantidad de horas semanales no puede ser menor a 0")
+    @Max(value = 99, message = "La cantidad de horas semanales no puede superar los 2 dígitos")
 	private int horasSemanales;
 	
 	@NotBlank(message = "El tipo de nivel no puede estar vacío.")
 	@Size(max = 12, message = "El tipo de nivel no puede superar los 12 caracteres.")
-	private String Nivel;
+	private String nivel;
 	
-	@NotBlank(message = "El nombre de los requisitos previos no puede estar vacío.")
+	@Size(max = 50, message = "Los requisitos previos no pueden superar los 50 caracteres.")
 	private String requisitosPrevios;
 
-	
-	
+	@JsonIgnore
+    @OneToMany(mappedBy = "materia")
+    private List<Curso> cursos;
+
 	public Integer getId() {
 		return id;
 	}
@@ -45,12 +57,12 @@ public class TablaMateria {
 		this.id = id;
 	}
 
-	public String getNombreMateria() {
-		return nombreMateria;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setNombreMateria(String nombreMateria) {
-		this.nombreMateria = nombreMateria;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getDescripcion() {
@@ -78,11 +90,11 @@ public class TablaMateria {
 	}
 
 	public String getNivel() {
-		return Nivel;
+		return nivel;
 	}
 
 	public void setNivel(String nivel) {
-		Nivel = nivel;
+		this.nivel = nivel;
 	}
 
 	public String getRequisitosPrevios() {
@@ -92,5 +104,14 @@ public class TablaMateria {
 	public void setRequisitosPrevios(String requisitosPrevios) {
 		this.requisitosPrevios = requisitosPrevios;
 	}
+
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
 	
 }

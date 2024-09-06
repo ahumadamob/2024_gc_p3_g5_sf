@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -18,13 +19,7 @@ public class RegistroAsistencia {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotNull(message = "Debe ingresar un alumno.")
-	@ManyToOne
-	private TablaAlumno id_alumno;
-	
-	@NotNull(message = "Debe ingresar un curso.")
-	private Integer id_curso;
-	
+	@NotNull(message = "La fecha ingresada no puede estar vacía.")
 	@Past(message = "La fecha y hora ingresadas no sucedieron aún.")
 	private LocalDateTime fecha;
 	
@@ -32,35 +27,28 @@ public class RegistroAsistencia {
 	@Size(max = 15, message = "El estado de la asistencia no debe superar los 15 caracteres.")
 	private String estadoAsistencia;
 	
-	@Size(max = 15, message = "El tipo de ausencia no debe superar los 15 caracteres.")
+	@Size(max = 20, message = "El tipo de ausencia no debe superar los 20 caracteres.")
 	private String tipoAusencia;
 	
 	@Size(max = 80, message = "Las observaciones adicionales no deben superar los 80 caracteres.")
 	private String observacionesAdicionales;
 
+	@NotNull(message = "Debe ingresar un alumno.")
+	@ManyToOne
+    @JoinColumn(name = "id_alumno")
+	private Alumno alumno;
 	
+	@NotNull(message = "Debe ingresar un curso.")
+	@ManyToOne
+    @JoinColumn(name = "id_curso")
+	private Curso curso;
+
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public TablaAlumno getId_alumno() {
-		return id_alumno;
-	}
-
-	public void setId_alumno(TablaAlumno id_alumno) {
-		this.id_alumno = id_alumno;
-	}
-
-	public Integer getId_curso() {
-		return id_curso;
-	}
-
-	public void setId_curso(Integer id_curso) {
-		this.id_curso = id_curso;
 	}
 
 	public LocalDateTime getFecha() {
@@ -93,6 +81,22 @@ public class RegistroAsistencia {
 
 	public void setObservacionesAdicionales(String observacionesAdicionales) {
 		this.observacionesAdicionales = observacionesAdicionales;
+	}
+
+	public Alumno getAlumno() {
+		return alumno;
+	}
+
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 	
 

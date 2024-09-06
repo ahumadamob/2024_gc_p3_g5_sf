@@ -46,7 +46,7 @@ public class ProfesorController {
 	public ResponseEntity<APIResponse<Profesor>> crearProfesor(@RequestBody Profesor profesor) {
 		return (profesorService.exists(profesor.getId())) 
 				? ResponseUtil.badRequest("Ya existe un profesor con id " + profesor.getId().toString() + ".") 
-				: ResponseUtil.created(profesorService.save(profesor));		
+				: ResponseUtil.created(profesorService.save(profesor), "El profesor fue creado con éxito");		
 	}
 	
 	@PutMapping	

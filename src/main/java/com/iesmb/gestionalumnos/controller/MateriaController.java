@@ -1,6 +1,6 @@
 package com.iesmb.gestionalumnos.controller;
 
-import com.iesmb.gestionalumnos.Entity.TablaMateria;
+import com.iesmb.gestionalumnos.entity.Materia;
 import com.iesmb.gestionalumnos.service.IMateriaService;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +16,20 @@ public class MateriaController {
     public IMateriaService materiaService;
 
     @GetMapping
-    public ResponseEntity<APIResponse<List<TablaMateria>>> mostrarMaterias(){
-        List<TablaMateria> materias = materiaService.getAll();
+    public ResponseEntity<APIResponse<List<Materia>>> mostrarMaterias(){
+        List<Materia> materias = materiaService.getAll();
         return (materias.isEmpty()) ? ResponseUtil.notFound("No se encontraron materias en la lista.") : ResponseUtil.success(materias);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<APIResponse<TablaMateria>> mostrarMateriaPorId(@PathVariable("id") Integer id) {
+    public ResponseEntity<APIResponse<Materia>> mostrarMateriaPorId(@PathVariable("id") Integer id) {
 
         return (materiaService.exists(id)) ? ResponseUtil.success(materiaService.getById(id))
                 : ResponseUtil.notFound("No se encontro una materia con el Id indicado.");
     }
 
     @PostMapping
-    public ResponseEntity<APIResponse<TablaMateria>> crearMateria(@RequestBody TablaMateria materia) {
+    public ResponseEntity<APIResponse<Materia>> crearMateria(@RequestBody Materia materia) {
 
         return (materiaService.exists(materia.getId())) ? ResponseUtil.badRequest("Ya existe una materia con el id indicado.")
                 : ResponseUtil.created(materiaService.save(materia),  "La materia fue creada con éxito.");
@@ -37,14 +37,13 @@ public class MateriaController {
     }
 
     @PutMapping
-    public ResponseEntity<APIResponse<TablaMateria>> modificarMateria(@RequestBody TablaMateria materia) {
-
+    public ResponseEntity<APIResponse<Materia>> modificarMateria(@RequestBody Materia materia) {
         return (materiaService.exists(materia.getId())) ? ResponseUtil.ok(materiaService.save(materia), "La materia fue modificada con éxito.")
                 : ResponseUtil.notFound("No se encontro una materia con el Id indicado.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse<TablaMateria>> eliminarMateria(@PathVariable("id") Integer id) {
+    public ResponseEntity<APIResponse<Materia>> eliminarMateria(@PathVariable("id") Integer id) {
 
         if(materiaService.exists(id)) {
             materiaService.delete(id);

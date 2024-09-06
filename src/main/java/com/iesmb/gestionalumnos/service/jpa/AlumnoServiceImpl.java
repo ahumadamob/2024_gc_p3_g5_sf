@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.iesmb.gestionalumnos.entity.TablaAlumno;
+import com.iesmb.gestionalumnos.entity.Alumno;
 import com.iesmb.gestionalumnos.repository.AlumnoRepository;
 import com.iesmb.gestionalumnos.service.IAlumnoService;
 
@@ -19,20 +19,20 @@ public class AlumnoServiceImpl implements IAlumnoService{
 	AlumnoRepository repo;
 
 	@Override
-	public List<TablaAlumno> obtenerTodas() {
+	public List<Alumno> obtenerTodas() {
 		
 		return repo.findAll();
 	}
 	
 	@Override
-	public void guardar(TablaAlumno alumno) {
+	public void guardar(Alumno alumno) {
 		repo.save(alumno);
 		
 	}
 
 	 @Override
-	    public TablaAlumno obtenerPorId(Integer id) {
-	        Optional<TablaAlumno> optional = repo.findById(id);
+	    public Alumno obtenerPorId(Integer id) {
+	        Optional<Alumno> optional = repo.findById(id);
 	        return optional.orElse(null);
 	    }
 
