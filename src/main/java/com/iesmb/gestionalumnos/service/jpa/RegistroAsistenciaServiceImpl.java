@@ -1,4 +1,4 @@
-package com.iesmb.gestionalumnos.serviceImpl;
+package com.iesmb.gestionalumnos.service.jpa;
 
 import java.util.List;
 import java.util.Optional;

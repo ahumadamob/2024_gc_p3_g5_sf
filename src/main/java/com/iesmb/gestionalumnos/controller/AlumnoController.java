@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iesmb.gestionalumnos.entity.TablaAlumno;
+import com.iesmb.gestionalumnos.entity.Alumno;
 import com.iesmb.gestionalumnos.service.IAlumnoService;
 
-import imb.pr2.turnero.controller.APIResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
@@ -31,22 +30,22 @@ public class AlumnoController {
 	IAlumnoService alumnoService;
 	
 	@GetMapping
-	public ResponseEntity<APIResponse<List<TablaAlumno>>> mostrarTodosLosAlumnos() {		
-		APIResponse<List<TablaAlumno>> response = new APIResponse<List<TablaAlumno>>(200, null, alumnoService.obtenerTodas());
+	public ResponseEntity<APIResponse<List<Alumno>>> mostrarTodosLosAlumnos() {		
+		APIResponse<List<Alumno>> response = new APIResponse<List<Alumno>>(200, null, alumnoService.obtenerTodas());
 		return ResponseEntity.status(HttpStatus.OK).body(response);	
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<TablaAlumno>> mostrarAlumnoPorId(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Alumno>> mostrarAlumnoPorId(@PathVariable("id") Integer id) {
 		if(this.existe(id)) {
-			TablaAlumno alumno = alumnoService.obtenerPorId(id);
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.OK.value(), null, alumno);
+			Alumno alumno = alumnoService.obtenerPorId(id);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.OK.value(), null, alumno);
 			return ResponseEntity.status(HttpStatus.OK).body(response);	
 		}else {
 			List<String> messages = new ArrayList<>();
 			messages.add("No se encontró el alumno con id = " + id.toString());
 			messages.add("Revise nuevamente el parámetro.");
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);			
 		}
 	
@@ -54,48 +53,48 @@ public class AlumnoController {
 	
 	
 	@PostMapping
-	public ResponseEntity<APIResponse<TablaAlumno>> crearAlumno(@RequestBody TablaAlumno alumno) {
+	public ResponseEntity<APIResponse<Alumno>> crearAlumno(@RequestBody Alumno alumno) {
 		if(alumnoService.exists(alumno.getId())) {
 			List<String> messages = new ArrayList<>();
 			messages.add("Ya existe un alumno con el id = " + alumno.getId().toString());
 			messages.add("Para actualizar utilice el verbo PUT.");
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		} else {
 			alumnoService.guardar(alumno);
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.CREATED.value(), null, alumno);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.CREATED.value(), null, alumno);
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		}
 	}
 	
-	@PutMapping("/{id}")	
-	public ResponseEntity<APIResponse<TablaAlumno>> modificarAlumno(@RequestBody TablaAlumno alumno) {
+	@PutMapping	
+	public ResponseEntity<APIResponse<Alumno>> modificarAlumno(@RequestBody Alumno alumno) {
 		if(this.existe(alumno.getId())) {
 			alumnoService.guardar(alumno);
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.OK.value(), null, alumno);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.OK.value(), null, alumno);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}else {
 			List<String> messages = new ArrayList<>();
 			messages.add("No existe un alumno con el ID especificado");
 			messages.add("Para crear un nuevo alumno utilice el verbo POST");
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 
 	}
 	
 	@DeleteMapping("/{id}")	
-	public ResponseEntity<APIResponse<TablaAlumno>> eliminarAlumno(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Alumno>> eliminarAlumno(@PathVariable("id") Integer id) {
 		if(this.existe(id)) {
 			alumnoService.eliminar(id);
 			List<String> messages = new ArrayList<>();
 			messages.add("El alumno que figura en el cuerpo ha sido eliminada") ;			
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.OK.value(), messages, null);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.OK.value(), messages, null);
 			return ResponseEntity.status(HttpStatus.OK).body(response);	
 		}else {
 			List<String> messages = new ArrayList<>();
 			messages.add("No existe un alumno con el id = " + id.toString());
-			APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
+			APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.BAD_REQUEST.value(), messages, null);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);			
 		}
 		
@@ -106,7 +105,7 @@ public class AlumnoController {
 		if(id == null) {
 			return false;
 		}else{
-			TablaAlumno alumno = alumnoService.obtenerPorId(id);
+			Alumno alumno = alumnoService.obtenerPorId(id);
 			if(alumno == null) {
 				return false;				
 			}else {
@@ -122,7 +121,7 @@ public class AlumnoController {
 		for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
 			errors.add(violation.getMessage());
 		}
-		APIResponse<TablaAlumno> response = new APIResponse<TablaAlumno>(HttpStatus.BAD_REQUEST.value(), errors, null);
+		APIResponse<Alumno> response = new APIResponse<Alumno>(HttpStatus.BAD_REQUEST.value(), errors, null);
 		return ResponseEntity.badRequest().body(response);
 	}
 }

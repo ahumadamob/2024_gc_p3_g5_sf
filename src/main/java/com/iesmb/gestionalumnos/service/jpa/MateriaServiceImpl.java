@@ -1,6 +1,6 @@
-package com.iesmb.gestionalumnos.serviceImpl;
+package com.iesmb.gestionalumnos.service.jpa;
 
-import com.iesmb.gestionalumnos.Entity.TablaMateria;
+import com.iesmb.gestionalumnos.entity.Materia;
 import com.iesmb.gestionalumnos.repository.MateriaRepository;
 import com.iesmb.gestionalumnos.service.IMateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,18 @@ public class MateriaServiceImpl implements IMateriaService {
 
 
     @Override
-    public List<TablaMateria> getAll() {
+    public List<Materia> getAll() {
         return materiaRepo.findAll();
     }
 
     @Override
-    public TablaMateria getById(Integer id) {
-        Optional<TablaMateria> materia = materiaRepo.findById(id);
+    public Materia getById(Integer id) {
+        Optional<Materia> materia = materiaRepo.findById(id);
         return materia.orElse(null);
     }
 
     @Override
-    public TablaMateria save(TablaMateria tablaMateria) {
+    public Materia save(Materia tablaMateria) {
         return materiaRepo.save(tablaMateria);
     }
 

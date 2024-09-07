@@ -3,6 +3,7 @@ package com.iesmb.gestionalumnos.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 
@@ -50,12 +52,14 @@ public class Profesor {
 	private String genero;
 	
 	@NotNull(message = "La fecha de contratacion no puede estar vacía.")
+	@PastOrPresent
 	private LocalDate fechaDeContratacion;
 	
 	@NotBlank(message = "El estado no puede estar vacío.")
 	@Size(max = 25, message = "El estado no puede superar los 25 caracteres.")
 	private String estado;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "profesor")
 	private List<Curso> cursos;
 
@@ -146,5 +150,6 @@ public class Profesor {
 	public void setCursos(List<Curso> cursos) {
 		this.cursos = cursos;
 	}
-
+	
+	
 }
