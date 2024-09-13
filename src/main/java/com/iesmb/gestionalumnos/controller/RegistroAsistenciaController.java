@@ -28,49 +28,62 @@ public class RegistroAsistenciaController {
 	
 	
 	@GetMapping
-	public ResponseEntity<APIResponse<List<RegistroAsistencia>>> mostrarTodosLosRegistros() {
+	public ResponseEntity<APIResponse<List<RegistroAsistencia>>> mostrarTodosLosRegistrosAsistencia() {
 		List<RegistroAsistencia> registros = registroAsistenciaService.getAll();
-		return (registros.isEmpty()) ? ResponseUtil.notFound("No se encontraron registros.") 
+		return (registros.isEmpty()) 
+				? ResponseUtil.notFound("No se encontraron registros de asistencia.") 
 				: ResponseUtil.success(registros);
 	}
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<RegistroAsistencia>> mostrarRegistroPorId(@PathVariable("id") Integer id) {
-		
-		return (registroAsistenciaService.exists(id)) ? ResponseUtil.success(registroAsistenciaService.getById(id)) 
-				: ResponseUtil.notFound("No se encontro un registro con el Id especificado.");
+	public ResponseEntity<APIResponse<RegistroAsistencia>> mostrarRegistroAsistenciaPorId(@PathVariable("id") Integer id) {
+		return (registroAsistenciaService.exists(id)) 
+				? ResponseUtil.success(registroAsistenciaService.getById(id)) 
+				: ResponseUtil.notFound("No se encontro un registro de asistencia con id " + id.toString() + ".");
 	}
 	
+	@GetMapping("/tipoAusencia/{tipoAusencia}")
+	public ResponseEntity<APIResponse<List<RegistroAsistencia>>>mostrarRegistroAsistenciaPorTipoAusencia(@PathVariable("tipoAusencia") String tipoAusencia){
+		List<RegistroAsistencia> registros = registroAsistenciaService.getByTipoAusencia(tipoAusencia);
+		if(registros.isEmpty()) {
+			return ResponseUtil.notFound("No se encontraron registros de asistencia con el tipo de ausencia " + tipoAusencia.toString());
+		}else {
+			return ResponseUtil.success(registros);
+		}
+	}	
+	
 	@PostMapping
-	public ResponseEntity<APIResponse<RegistroAsistencia>> crearRegistro(@RequestBody RegistroAsistencia registro) {
-		
-		return (registroAsistenciaService.exists(registro.getId())) ? ResponseUtil.badRequest("Ya existe un registro con este Id.")
+	public ResponseEntity<APIResponse<RegistroAsistencia>> crearRegistroAsistencia(@RequestBody RegistroAsistencia registro) {
+		return (registroAsistenciaService.exists(registro.getId())) 
+				? ResponseUtil.badRequest("Ya existe un registro de asistencia con id " + registro.getId().toString() + ".")
 				: ResponseUtil.created(registroAsistenciaService.save(registro),  "El registro fue creado con éxito.");
 			
 	}
 	
 	@PutMapping
-	public ResponseEntity<APIResponse<RegistroAsistencia>> modificarRegistro(@RequestBody RegistroAsistencia registro) {
-		
-		return (registroAsistenciaService.exists(registro.getId())) ? ResponseUtil.ok(registroAsistenciaService.save(registro), "El registro fue modificado con éxito.") 
-				: ResponseUtil.notFound("No se encontro un registro con el Id especificado.");
+	public ResponseEntity<APIResponse<RegistroAsistencia>> modificarRegistroAsistencia(@RequestBody RegistroAsistencia registro) {
+		if (registroAsistenciaService.exists(registro.getId())) {
+			return ResponseUtil.success(registroAsistenciaService.save(registro));
+		} else if (registro.getId()==null) {
+			return ResponseUtil.badRequest("No ingresaste el id de ningún registro de asistencia para modificarlo.");
+		} else {
+			return ResponseUtil.notFound("No existe un registro de asistencia con id " + registro.getId().toString() + ".");
+		}
 	}
 	
 	@DeleteMapping("/{id}")	
-	public ResponseEntity<APIResponse<RegistroAsistencia>> eliminarRegistro(@PathVariable("id") Integer id) {
-		
+	public ResponseEntity<APIResponse<String>> eliminarRegistroAsistencia(@PathVariable("id") Integer id) {
 		if(registroAsistenciaService.exists(id)) {
 			registroAsistenciaService.delete(id);
-			return ResponseUtil.ok(null, "El registro fue eliminado con éxito.");
+			return ResponseUtil.success("El registro asistencia con id " + id.toString() + " ha sido eliminado con éxito.");
 		}else {
-			return ResponseUtil.notFound("No se encontro un registro con el Id especificado.");
+			return ResponseUtil.notFound("No existe un registro asistencia con id " + id.toString() + ".");
 		}
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){
-	
 		return ResponseUtil.handleConstraintException(ex);
 	}
 
