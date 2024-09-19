@@ -21,7 +21,7 @@ public class CursoServiceImpl implements ICursoService {
 	}
 
 	@Override
-	public Curso getById(Long id) {
+	public Curso getById(Integer id) {
 		return repo.findById(id).orElseGet(null);
 	}
 
@@ -31,14 +31,15 @@ public class CursoServiceImpl implements ICursoService {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		repo.deleteById(id);
 		
 	}
 
 	@Override
-	public boolean exists(Long id) {
+	public boolean exists(Integer id) {
 		return id == null ? false : repo.existsById(id);
 	}
+
 
 }

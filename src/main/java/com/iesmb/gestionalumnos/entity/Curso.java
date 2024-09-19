@@ -25,7 +25,7 @@ public class Curso {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 	
 	@NotNull(message = "El año académico no puede estar vacío.")
     @Min(value = 2010, message = "El año académico no puede ser menor a 2010")
@@ -76,11 +76,11 @@ public class Curso {
     @JoinColumn(name = "id_materia")
     private Materia  materia;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
