@@ -7,10 +7,9 @@ import com.iesmb.gestionalumnos.entity.Alumno;
 
 public interface IAlumnoService {
 
-	public List<Alumno> obtenerTodas();
-	public Alumno obtenerPorId(Integer id);
-	public void guardar(Alumno alumno);
-	public void eliminar(Integer id);
-	boolean exists(Integer id);
-	
+	public List<Alumno> getAll();
+	public Alumno getById(Integer id);
+	public Alumno save(Alumno alumno);
+	public void delete(Integer id);
+	public boolean exists(Integer id);	
 }

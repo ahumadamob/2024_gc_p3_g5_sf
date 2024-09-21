@@ -1,7 +1,6 @@
 package com.iesmb.gestionalumnos.service.jpa;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -16,28 +15,25 @@ import com.iesmb.gestionalumnos.service.IAlumnoService;
 public class AlumnoServiceImpl implements IAlumnoService{
 
 	@Autowired
-	AlumnoRepository repo;
+	private AlumnoRepository repo;
 
 	@Override
-	public List<Alumno> obtenerTodas() {
-		
+	public List<Alumno> getAll() {
 		return repo.findAll();
 	}
 	
 	@Override
-	public void guardar(Alumno alumno) {
-		repo.save(alumno);
-		
+	public Alumno save(Alumno alumno) {
+		return repo.save(alumno);
 	}
 
-	 @Override
-	    public Alumno obtenerPorId(Integer id) {
-	        Optional<Alumno> optional = repo.findById(id);
-	        return optional.orElse(null);
-	    }
+	@Override
+	public Alumno getById(Integer id) {
+	     return repo.findById(id).orElse(null);
+	}
 
 	@Override
-	public void eliminar(Integer id) {
+	public void delete(Integer id) {
 		repo.deleteById(id);				
 	}
 	
