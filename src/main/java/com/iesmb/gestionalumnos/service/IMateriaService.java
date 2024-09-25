@@ -9,7 +9,7 @@ public interface IMateriaService {
     public List<Materia> getAll();
     public List<Materia> getByNivel(String nivel);
     public Materia getById(Integer id);
-    public Materia save(Materia tablaMateria);
+    public Materia save(Materia materia);
     public void delete(Integer id);
     public boolean exists(Integer id);
 
