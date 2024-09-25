@@ -7,6 +7,7 @@ import com.iesmb.gestionalumnos.entity.Materia;
 public interface IMateriaService {
 
     public List<Materia> getAll();
+    public List<Materia> getByNivel(String nivel);
     public Materia getById(Integer id);
     public Materia save(Materia tablaMateria);
     public void delete(Integer id);
