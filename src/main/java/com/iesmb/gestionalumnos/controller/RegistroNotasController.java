@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iesmb.gestionalumnos.entity.RegistroNotas;
@@ -20,7 +21,7 @@ import com.iesmb.gestionalumnos.service.IRegistroNotasService;
 import jakarta.validation.ConstraintViolationException;
 
 @RestController
-@RequestMapping("/api/registroNotas")
+@RequestMapping("/api/registro_notas")
 public class RegistroNotasController {
 
 	@Autowired
@@ -62,6 +63,13 @@ public class RegistroNotasController {
 			} else {
 				return ResponseUtil.notFound("No se encontraron registros de notas con este id.");
 		}
+	}
+	
+	@GetMapping("/by_nota")
+	public ResponseEntity<APIResponse<List<RegistroNotas>>> buscarPorNota(@RequestParam double nota) {
+		List<RegistroNotas> registros = registroNotasService.findByNota(nota);
+		return (registros.isEmpty()) ? ResponseUtil.notFound("No se encontraron registros con la nota especificada")
+					: ResponseUtil.success(registros);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)

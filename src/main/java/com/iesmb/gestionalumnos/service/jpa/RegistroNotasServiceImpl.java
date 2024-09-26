@@ -44,6 +44,9 @@ public class RegistroNotasServiceImpl implements IRegistroNotasService {
 		return (id == null)? false: repo.existsById(id);
 	}
 	
-	
+	@Override
+	public List<RegistroNotas> findByNota(double nota) {
+		return repo.findByNota(nota);
+	}
 	
 }
