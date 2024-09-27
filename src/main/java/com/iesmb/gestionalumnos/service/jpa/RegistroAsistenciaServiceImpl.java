@@ -1,9 +1,9 @@
 package com.iesmb.gestionalumnos.service.jpa;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.iesmb.gestionalumnos.entity.RegistroAsistencia;
@@ -11,6 +11,7 @@ import com.iesmb.gestionalumnos.repository.RegistroAsistenciaRepository;
 import com.iesmb.gestionalumnos.service.IRegistroAsistenciaService;
 
 @Service
+@Primary
 public class RegistroAsistenciaServiceImpl implements IRegistroAsistenciaService{
 
 	@Autowired
@@ -23,8 +24,7 @@ public class RegistroAsistenciaServiceImpl implements IRegistroAsistenciaService
 
 	@Override
 	public RegistroAsistencia getById(Integer id) {
-		Optional<RegistroAsistencia> optional = repo.findById(id);
-		return optional.orElse(null);
+		return repo.findById(id).orElse(null);
 	}
 
 	@Override
@@ -39,7 +39,12 @@ public class RegistroAsistenciaServiceImpl implements IRegistroAsistenciaService
 
 	@Override
 	public boolean exists(Integer id) {
-		return (id == null)? false: repo.existsById(id);
+		return (id == null) ? false : repo.existsById(id);
+	}
+
+	@Override
+	public List<RegistroAsistencia> getByTipoAusencia(String tipoAusencia) {
+		return repo.findByTipoAusencia(tipoAusencia);
 	}
 
 }
