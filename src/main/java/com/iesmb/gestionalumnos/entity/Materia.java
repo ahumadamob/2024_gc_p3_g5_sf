@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -33,7 +34,7 @@ public class Materia {
 	@Size(max = 20, message = "Los créditos no pueden superar los 20 caracteres.")
 	private String creditos;
 	
-	@NotBlank(message = "La cantidad de horas semanales no puede estar vacío.")
+	@NotNull(message = "La cantidad de horas semanales no puede estar vacío.")
     @Min(value = 0, message = "La cantidad de horas semanales no puede ser menor a 0")
     @Max(value = 99, message = "La cantidad de horas semanales no puede superar los 2 dígitos")
 	private int horasSemanales;

@@ -4,12 +4,12 @@ import com.iesmb.gestionalumnos.entity.Materia;
 import com.iesmb.gestionalumnos.repository.MateriaRepository;
 import com.iesmb.gestionalumnos.service.IMateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Primary
 public class MateriaServiceImpl implements IMateriaService {
 
     @Autowired
@@ -23,13 +23,12 @@ public class MateriaServiceImpl implements IMateriaService {
 
     @Override
     public Materia getById(Integer id) {
-        Optional<Materia> materia = materiaRepo.findById(id);
-        return materia.orElse(null);
+    	return materiaRepo.findById(id).orElse(null);
     }
 
     @Override
-    public Materia save(Materia tablaMateria) {
-        return materiaRepo.save(tablaMateria);
+    public Materia save(Materia materia) {
+        return materiaRepo.save(materia);
     }
 
     @Override
@@ -41,4 +40,9 @@ public class MateriaServiceImpl implements IMateriaService {
     public boolean exists(Integer id) {
         return (id == null)? false: materiaRepo.existsById(id);
     }
+
+	@Override
+	public List<Materia> getByNivel(String nivel) {
+		return materiaRepo.findByNivel(nivel);
+	}
 }

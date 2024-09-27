@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/materiaController")
+@RequestMapping("/api/materia")
 public class MateriaController {
     @Autowired
     public IMateriaService materiaService;
@@ -27,6 +27,16 @@ public class MateriaController {
         return (materiaService.exists(id)) ? ResponseUtil.success(materiaService.getById(id))
                 : ResponseUtil.notFound("No se encontro una materia con el Id indicado.");
     }
+    
+	@GetMapping("/nivel/{nivel}")
+	public ResponseEntity<APIResponse<List<Materia>>>mostrarMateriaPorNivel(@PathVariable("nivel") String nivel){
+		List<Materia> materias = materiaService.getByNivel(nivel);
+		if(materias.isEmpty()) {
+			return ResponseUtil.notFound("No se encontraron materias del nivel " + nivel);
+		}else {
+			return ResponseUtil.success(materias);
+		}
+	}
 
     @PostMapping
     public ResponseEntity<APIResponse<Materia>> crearMateria(@RequestBody Materia materia) {
