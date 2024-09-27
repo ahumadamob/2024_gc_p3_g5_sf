@@ -16,4 +16,6 @@ public interface ICursoService {
 	
 	public boolean exists(Integer id);
 
+	public List<Curso> getBycupoMaximo(Integer cupoMaximo);
+
 }

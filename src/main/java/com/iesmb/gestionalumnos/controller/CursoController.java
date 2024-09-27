@@ -41,6 +41,16 @@ public class CursoController {
 				: ResponseUtil.notFound("No se encontró un curso con id " + id.toString() + ".");	
 	}
 	
+	@GetMapping("/cupoMaximo/{cupoMaximo}")
+	public ResponseEntity<APIResponse<List<Curso>>>mostrarCursoPorCantidad(@PathVariable("cupoMaximo") Integer cupoMaximo){
+		List<Curso> cursos = cursoService.getBycupoMaximo(cupoMaximo);
+		if(cursos.isEmpty()) {
+			return ResponseUtil.notFound("No se encontraron cursos con el cupo " + cupoMaximo.toString());
+		}else {
+			return ResponseUtil.success(cursos);
+		}
+	}
+	
 	@PostMapping
 	public ResponseEntity<APIResponse<Curso>> crearCurso(@RequestBody Curso curso) {
 		return (cursoService.exists(curso.getId())) 

@@ -3,6 +3,7 @@ package com.iesmb.gestionalumnos.service.jpa;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.iesmb.gestionalumnos.entity.Curso;
@@ -10,6 +11,7 @@ import com.iesmb.gestionalumnos.repository.CursoRepository;
 import com.iesmb.gestionalumnos.service.ICursoService;
 
 @Service
+@Primary
 public class CursoServiceImpl implements ICursoService {
 	
 	@Autowired
@@ -39,6 +41,11 @@ public class CursoServiceImpl implements ICursoService {
 	@Override
 	public boolean exists(Integer id) {
 		return id == null ? false : repo.existsById(id);
+	}
+
+	@Override
+	public List<Curso> getBycupoMaximo(Integer cupoMaximo) {
+		return repo.getBycupoMaximo(cupoMaximo);
 	}
 
 
