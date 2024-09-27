@@ -10,5 +10,6 @@ public interface IRegistroNotasService {
 	public RegistroNotas save(RegistroNotas registroNotas);
 	public void delete(Integer id);
 	public boolean exists(Integer id);
+	public List<RegistroNotas> findByNota(double nota);
 	
 }
