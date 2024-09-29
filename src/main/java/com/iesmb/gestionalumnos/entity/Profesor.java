@@ -59,9 +59,23 @@ public class Profesor {
 	@Size(max = 25, message = "El estado no puede superar los 25 caracteres.")
 	private String estado;
 	
+	
+	private boolean titularidad;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "profesor")
 	private List<Curso> cursos;
+	
+	
+	
+
+	public boolean isTitularidad() {
+		return titularidad;
+	}
+
+	public void setTitularidad(boolean titularidad) {
+		this.titularidad = titularidad;
+	}
 
 	public Integer getId() {
 		return id;
