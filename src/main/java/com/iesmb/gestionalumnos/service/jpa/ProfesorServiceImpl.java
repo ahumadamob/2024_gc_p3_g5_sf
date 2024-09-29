@@ -42,4 +42,9 @@ public class ProfesorServiceImpl implements IProfesorService{
 	    return (id == null) ? false: repo.existsById(id);
 	}
 	
+	@Override
+	public List<Profesor> encontrarProfesoresTitulares() {
+        return repo.findByTitularidad(true);
+    }
+	
 }
