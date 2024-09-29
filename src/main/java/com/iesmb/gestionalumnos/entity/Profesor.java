@@ -59,7 +59,7 @@ public class Profesor {
 	@Size(max = 25, message = "El estado no puede superar los 25 caracteres.")
 	private String estado;
 	
-	
+	@NotNull(message = "La titularidad no puede estar en blanco.")
 	private boolean titularidad;
 	
 	@JsonIgnore
@@ -68,7 +68,6 @@ public class Profesor {
 	
 	
 	
-
 	public boolean isTitularidad() {
 		return titularidad;
 	}
