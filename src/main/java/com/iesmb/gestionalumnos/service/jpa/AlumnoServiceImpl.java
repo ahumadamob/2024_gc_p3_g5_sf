@@ -41,4 +41,9 @@ public class AlumnoServiceImpl implements IAlumnoService{
 		return repo.existsById(id);
 	}
 
+	@Override
+	public List<Alumno> findByApellido(String apellido) {
+		return repo.findByApellido(apellido);
+	}
+
 }

@@ -12,4 +12,6 @@ public interface IAlumnoService {
 	public Alumno save(Alumno alumno);
 	public void delete(Integer id);
 	public boolean exists(Integer id);	
+	
+	public List<Alumno> findByApellido (String apellido);
 }

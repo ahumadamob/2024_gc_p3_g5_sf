@@ -41,6 +41,16 @@ public class AlumnoController {
 				: ResponseUtil.notFound("No se encontró ningún alumno.");
 	}
 	
+	@GetMapping("/{apellido}")
+	public ResponseEntity<APIResponse<List<Alumno>>>mostrarApellido(@PathVariable("apellido") String apellido) {
+		List<Alumno> alumnos = alumnoService.findByApellido(apellido);
+		if (alumnos.isEmpty()) {
+			return ResponseUtil.notFound("No se encontraron alumnos con ese apellido.");
+		} else {
+			return ResponseUtil.success(alumnos);
+		}
+	}
+	
 	@PostMapping
 	public ResponseEntity<APIResponse<Alumno>> crearAlumno(@RequestBody Alumno alumno) {
 		return (alumnoService.exists(alumno.getId()))
