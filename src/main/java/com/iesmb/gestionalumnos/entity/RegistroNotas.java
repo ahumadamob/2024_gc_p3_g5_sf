@@ -1,9 +1,6 @@
 package com.iesmb.gestionalumnos.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
@@ -13,12 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class RegistroNotas {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
+public class RegistroNotas extends BaseEntity {
     @Min(value = 1, message = "La nota no puede ser menor a 1")
     @Max(value = 10, message = "La nota no puede ser mayor a 10")
 	private double nota;
@@ -43,14 +35,6 @@ public class RegistroNotas {
 	@ManyToOne
     @JoinColumn(name = "id_alumno", nullable = false)
 	private Alumno alumno;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public double getNota() {
 		return nota;

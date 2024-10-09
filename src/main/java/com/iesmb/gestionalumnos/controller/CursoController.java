@@ -32,9 +32,9 @@ public class CursoController {
 
 
 	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<Curso>> mostrarRegistroPorId(@PathVariable("id") Long id_curso) {
+	public ResponseEntity<APIResponse<Curso>> mostrarRegistroPorId(@PathVariable("id") Integer id) {
 
-		return (cursoService.exists(id_curso)) ? ResponseUtil.success(cursoService.getById(id_curso)) 
+		return (cursoService.exists(id)) ? ResponseUtil.success(cursoService.getById(id)) 
 				: ResponseUtil.notFound("No existe un registro con el Id indicado.");
 	}
 
@@ -47,21 +47,21 @@ public class CursoController {
 	}
 
 	@PutMapping	
-	public ResponseEntity<APIResponse<Curso>> modificarCurso(@RequestBody Curso registro) {
-		if (cursoService.exists(registro.getId())) {
-			return ResponseUtil.success(cursoService.save(registro));
-		} else if (registro.getId()==null) {
+	public ResponseEntity<APIResponse<Curso>> modificarCurso(@RequestBody Curso curso) {
+		if (cursoService.exists(curso.getId())) {
+			return ResponseUtil.success(cursoService.save(curso));
+		} else if (curso.getId()==null) {
 			return ResponseUtil.badRequest("No ingreso el id de ningún curso para modificarlo.");
 		} else {
-			return ResponseUtil.notFound("No existe un curso con id " + registro.getId().toString() + ".");
+			return ResponseUtil.notFound("No existe un curso con id " + curso.getId().toString() + ".");
 		}
 	}
 
 	@DeleteMapping("/{id}")	
-	public ResponseEntity<APIResponse<Curso>> eliminarRegistro(@PathVariable("id") Long id_curso) {
+	public ResponseEntity<APIResponse<Curso>> eliminarRegistro(@PathVariable("id") Integer id) {
 
-		if(cursoService.exists(id_curso)) {
-			cursoService.delete(id_curso);
+		if(cursoService.exists(id)) {
+			cursoService.delete(id);
 			return ResponseUtil.ok(null, "El registro fue eliminado.");
 		}else {
 			return ResponseUtil.notFound("No existe un registro con el Id indicado.");

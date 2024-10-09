@@ -6,9 +6,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,12 +14,7 @@ import jakarta.validation.constraints.Size;
 
 
 @Entity
-public class Profesor {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	
+public class Profesor extends BaseEntity {	
 	@NotBlank(message = "El nombre no puede estar vacío.")
 	@Size(max = 25, message = "El nombre no puede superar los 25 caracteres.")
 	private String nombre;
@@ -62,14 +54,6 @@ public class Profesor {
 	@JsonIgnore
 	@OneToMany(mappedBy = "profesor")
 	private List<Curso> cursos;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getNombre() {
 		return nombre;

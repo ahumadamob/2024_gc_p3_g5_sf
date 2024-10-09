@@ -28,8 +28,8 @@ public class MateriaServiceImpl implements IMateriaService {
     }
 
     @Override
-    public Materia save(Materia tablaMateria) {
-        return materiaRepo.save(tablaMateria);
+    public Materia save(Materia materia) {
+        return materiaRepo.save(materia);
     }
 
     @Override

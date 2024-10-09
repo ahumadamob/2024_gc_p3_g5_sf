@@ -3,9 +3,6 @@ package com.iesmb.gestionalumnos.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Past;
@@ -14,11 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class RegistroAsistencia {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	
+public class RegistroAsistencia extends BaseEntity {
 	@NotNull(message = "La fecha ingresada no puede estar vacía.")
 	@Past(message = "La fecha y hora ingresadas no sucedieron aún.")
 	private LocalDateTime fecha;
@@ -42,14 +35,6 @@ public class RegistroAsistencia {
 	@ManyToOne
     @JoinColumn(name = "id_curso")
 	private Curso curso;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public LocalDateTime getFecha() {
 		return fecha;

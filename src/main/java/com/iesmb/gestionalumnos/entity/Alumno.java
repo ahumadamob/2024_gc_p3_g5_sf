@@ -7,9 +7,6 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
@@ -19,11 +16,7 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class Alumno {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+public class Alumno extends BaseEntity {
 	
 	@NotBlank(message = "El nombre no puede estar vacío.")
 	@Size(max = 30, message = "El nombre no debe superar los 30 caracteres.")
@@ -72,14 +65,6 @@ public class Alumno {
 	@JsonIgnore
     @ManyToMany(mappedBy = "alumnos")
     private Set<Curso> cursos;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getNombre() {
 		return nombre;
@@ -176,6 +161,5 @@ public class Alumno {
 	public void setCursos(Set<Curso> cursos) {
 		this.cursos = cursos;
 	}
-    
     
 }
