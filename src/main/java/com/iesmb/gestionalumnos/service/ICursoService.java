@@ -8,11 +8,14 @@ public interface ICursoService {
 	
 	public List<Curso> getAll();
 	
-	public Curso getById(Long id);
+	public Curso getById(Integer id);
 	
 	public Curso save(Curso registro);
 	
-	public void delete(Long id);
+	public void delete(Integer id);
 	
-	public boolean exists(Long id);
+	public boolean exists(Integer id);
+
+	public List<Curso> getBycupoMaximo(Integer cupoMaximo);
+
 }
