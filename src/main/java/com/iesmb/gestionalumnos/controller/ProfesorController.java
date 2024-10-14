@@ -34,6 +34,11 @@ public class ProfesorController {
 				: ResponseUtil.success(profesores);
 	}
 	
+	@GetMapping("/titulares")
+	public ResponseEntity<APIResponse<List<Profesor>>> mostrarTodosLosTitulares(){
+		List<Profesor> profesores = profesorService.encontrarProfesoresTitulares();
+		return(profesores.isEmpty()) ? ResponseUtil.notFound("No se encontraron profesores titulares") : ResponseUtil.success(profesores);
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<Profesor>> mostrarProfesorPorId(@PathVariable("id") Integer id) {
@@ -70,6 +75,8 @@ public class ProfesorController {
 			return ResponseUtil.notFound("No existe un profesor con id " + id.toString() + ".");
 		}		
 	}
+	
+	
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){

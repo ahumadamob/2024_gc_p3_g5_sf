@@ -12,4 +12,7 @@ public interface IProfesorService {
 	public void delete (Integer id);
 	public boolean exists (Integer id);
 	
+	List<Profesor> encontrarProfesoresTitulares();
+	
+	
 }
