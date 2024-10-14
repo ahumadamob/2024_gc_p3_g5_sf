@@ -58,7 +58,7 @@ public class Alumno {
     private Date fechaInscripcion;
     
     @NotBlank(message = "Debe ingresar un estado.")
-	@Size(max = 10, message = "El teléfono no debe superar los 10 caracteres.")
+	@Size(max = 10, message = "El estado académino no debe superar los 10 caracteres.")
     private String estado;
     
 	@JsonIgnore
