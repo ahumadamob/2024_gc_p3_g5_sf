@@ -1,7 +1,6 @@
 package com.iesmb.gestionalumnos.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -60,29 +59,20 @@ public class RegistroNotasController {
 	@PatchMapping("/actualizar_nota/{id}")
 	public ResponseEntity<APIResponse<RegistroNotas>> actualizarNota(
 	        @PathVariable("id") Integer id, 
-	        @RequestBody Map<String, Object> request) {
-	
+	        @RequestBody RegistroNotas nuevaNota) {
 	    if (registroNotasService.exists(id)) {
 	        RegistroNotas registro = registroNotasService.getById(id);
-	        Object nuevaNotaObj = request.get("nota");
-	        
-	        if (nuevaNotaObj instanceof Number) {
-	            Double nuevaNota = ((Number) nuevaNotaObj).doubleValue();
-	            Double notaActual = registro.getNota();
-	            
-	            if (notaActual != null && notaActual.equals(nuevaNota)) {
-	                return ResponseUtil.badRequest("La nota ya posee dicho valor: " + nuevaNota);
-	            }
-	            registro.setNota(nuevaNota);
-	            RegistroNotas updatedRegistro = registroNotasService.save(registro);
-	            return ResponseUtil.ok(updatedRegistro, "La nota fue actualizada correctamente.");
-	        } else {
-	            return ResponseUtil.badRequest("La nueva nota debe ser un número.");
+	        if (registro.getNota() != null && registro.getNota().equals(nuevaNota.getNota())) {
+	            return ResponseUtil.badRequest("La nota ya posee dicho valor: " + nuevaNota.getNota());
 	        }
+	        registro.setNota(nuevaNota.getNota());
+	        RegistroNotas updatedRegistro = registroNotasService.save(registro);
+	        return ResponseUtil.ok(updatedRegistro, "La nota fue actualizada correctamente.");
 	    } else {
 	        return ResponseUtil.notFound("No se encontraron registros de notas con este id.");
 	    }
 	}
+	
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<String>> eliminarRegistroNotas(@PathVariable("id") Integer id) {
