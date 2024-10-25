@@ -23,7 +23,7 @@ public class RegistroNotas {
 	
     @Min(value = 1, message = "La nota no puede ser menor a 1")
     @Max(value = 10, message = "La nota no puede ser mayor a 10")
-	private double nota;
+	private Double nota;
     
     @NotBlank(message = "El tipo de evaluación no puede estar vacío.")
 	@Size(max = 15, message = "El tipo de evaluación no debe superar los 15 caracteres.")
@@ -54,11 +54,11 @@ public class RegistroNotas {
 		this.id = id;
 	}
 
-	public double getNota() {
+	public Double getNota() {
 		return nota;
 	}
 
-	public void setNota(double nota) {
+	public void setNota(Double nota) {
 		this.nota = nota;
 	}
 
