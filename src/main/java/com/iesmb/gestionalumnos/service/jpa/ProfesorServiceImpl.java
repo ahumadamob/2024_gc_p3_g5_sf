@@ -46,5 +46,15 @@ public class ProfesorServiceImpl implements IProfesorService{
 	public List<Profesor> encontrarProfesoresTitulares() {
         return repo.findByTitularidad(true);
     }
+
+	@Override
+	public Profesor updateStatus(Integer id, String nuevoEstado) {
+	    if (exists(id)) {
+	        Profesor profesor = getById(id);
+	        profesor.setEstado(nuevoEstado);
+	        return save(profesor);
+	    }
+		return null;
+	}
 	
 }

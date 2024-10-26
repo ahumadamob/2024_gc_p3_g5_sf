@@ -11,6 +11,7 @@ public interface IProfesorService {
 	public Profesor save (Profesor profesor);
 	public void delete (Integer id);
 	public boolean exists (Integer id);
+	public Profesor updateStatus(Integer id, String nuevoEstado);
 	
 	List<Profesor> encontrarProfesoresTitulares();
 	
