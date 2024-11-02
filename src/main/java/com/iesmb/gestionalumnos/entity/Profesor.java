@@ -1,15 +1,12 @@
 package com.iesmb.gestionalumnos.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -68,6 +65,36 @@ public class Profesor {
 	
 	
 	
+	
+	
+	
+	
+	@ManyToMany
+	@JoinTable(
+	    name = "profesor_materia",
+	    joinColumns = @JoinColumn(name = "profesor_id"),
+	    inverseJoinColumns = @JoinColumn(name = "materia_id")
+	)
+	private List<Materia> materias = new ArrayList<>();
+
+
+	public List<Materia> getMaterias() {
+		return materias;
+	}
+
+	public void setMaterias(List<Materia> materias) {
+		this.materias = materias;
+	}
+
+
+
+
+
+
+
+
+
+
 	public boolean isTitularidad() {
 		return titularidad;
 	}
