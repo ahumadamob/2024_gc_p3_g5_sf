@@ -1,5 +1,6 @@
 package com.iesmb.gestionalumnos.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.iesmb.gestionalumnos.entity.Profesor;
@@ -11,6 +12,8 @@ public interface IProfesorService {
 	public Profesor save (Profesor profesor);
 	public void delete (Integer id);
 	public boolean exists (Integer id);
+
+	boolean registrarAusencia(Integer id, LocalDate fecha, String tipoAusencia);
 	
 	List<Profesor> encontrarProfesoresTitulares();
 	

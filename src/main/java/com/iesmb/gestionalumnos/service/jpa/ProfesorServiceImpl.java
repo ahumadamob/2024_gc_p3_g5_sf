@@ -1,5 +1,6 @@
 package com.iesmb.gestionalumnos.service.jpa;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class ProfesorServiceImpl implements IProfesorService{
 
 	@Autowired
 	ProfesorRepository repo;
+
 
 	@Override
 	public List<Profesor> getAll() {		
@@ -45,6 +47,27 @@ public class ProfesorServiceImpl implements IProfesorService{
 	@Override
 	public List<Profesor> encontrarProfesoresTitulares() {
         return repo.findByTitularidad(true);
+    }
+
+    @Override
+    public boolean registrarAusencia(Integer id, LocalDate fecha, String tipoAusencia) {
+
+        if (!repo.existsById(id)) {
+            return false;
+        }        if (fecha == null || tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
+        			return false;
+        		 }
+
+        Profesor profesor = repo.findById(id).orElse(null);
+        if (profesor != null) {
+
+            profesor.agregarAusencia(fecha, tipoAusencia);
+            
+            repo.save(profesor);
+            return true;
+        }
+
+        return false;
     }
 	
 }

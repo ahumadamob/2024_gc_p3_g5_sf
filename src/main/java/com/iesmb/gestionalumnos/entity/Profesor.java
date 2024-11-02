@@ -1,10 +1,12 @@
 package com.iesmb.gestionalumnos.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -66,7 +68,9 @@ public class Profesor {
 	@OneToMany(mappedBy = "profesor")
 	private List<Curso> cursos;
 	
-	
+    @ElementCollection
+    private List<String> ausencias = new ArrayList<>();
+    
 	
 	public boolean isTitularidad() {
 		return titularidad;
@@ -164,5 +168,7 @@ public class Profesor {
 		this.cursos = cursos;
 	}
 	
-	
+    public void agregarAusencia(LocalDate fecha, String tipo) {
+        ausencias.add("Fecha: " + fecha + ", Tipo: " + tipo);
+    }
 }
