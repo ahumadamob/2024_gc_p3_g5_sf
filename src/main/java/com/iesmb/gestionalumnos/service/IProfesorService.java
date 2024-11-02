@@ -13,6 +13,8 @@ public interface IProfesorService {
 	public boolean exists (Integer id);
 	
 	List<Profesor> encontrarProfesoresTitulares();
-	
-	
+
+	Profesor asignarMateria(Integer profesorId, Integer materiaId);
+	Profesor eliminarMateria(Integer profesorId, Integer materiaId);
+
 }
