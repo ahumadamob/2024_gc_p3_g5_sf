@@ -1,9 +1,6 @@
 package com.iesmb.gestionalumnos.controller;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.iesmb.gestionalumnos.dto.InscripcionDTO;
 import com.iesmb.gestionalumnos.entity.Alumno;
 import com.iesmb.gestionalumnos.service.IAlumnoService;
 import jakarta.validation.ConstraintViolationException;
@@ -62,29 +60,13 @@ public class AlumnoController {
 	
 	@PostMapping("/registrar_inscripcion")
 	public ResponseEntity<APIResponse<Alumno>> registrarInscripcion(
-			@RequestBody Map<String, Object> inscripcion) {
-		
-	    Integer alumnoId = (Integer) inscripcion.get("alumnoId");
-	    Integer cursoId = (Integer) inscripcion.get("cursoId");
-	    Date fechaInscripcion;
-	    
-	    try {
-	        fechaInscripcion = Date.valueOf(inscripcion.get("fechaInscripcion").toString());
-	    } catch (IllegalArgumentException e) {
-	        return ResponseUtil.badRequest("La fecha de inscripción no tiene un formato válido.");
-	    }
-	    
-		Map<String, Object> resultado = alumnoService.validarInscripcion(alumnoId, cursoId);
-		boolean datosValidos = (boolean) resultado.get("datosValidos");
-		
-	    if (datosValidos) {
-	    	Alumno alumno = alumnoService.getById(alumnoId);
-	    	alumno.setFechaInscripcion(fechaInscripcion);
-	        return ResponseUtil.success(alumnoService.save(alumno));
-	    } else {
-			String mensaje = (String) resultado.get("mensaje");
-	        return ResponseUtil.badRequest(mensaje);
-	    }
+	        @RequestBody InscripcionDTO inscripcionDTO) {
+
+	    alumnoService.validarInscripcion(inscripcionDTO.getAlumnoId(), inscripcionDTO.getCursoId());
+
+	    Alumno alumno = alumnoService.getById(inscripcionDTO.getAlumnoId());
+	    alumno.setFechaInscripcion(inscripcionDTO.getFechaInscripcion());
+	    return ResponseUtil.success(alumnoService.save(alumno));
 	}
 	
 	
@@ -108,9 +90,14 @@ public class AlumnoController {
 			return ResponseUtil.notFound("No existe un alumno con el id " + id.toString() + ".");
 		}
 	}
-	
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){
-			return ResponseUtil.handleConstraintException(ex);
-	}
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex) {
+        return ResponseUtil.handleConstraintException(ex);
+    }
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<APIResponse<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseUtil.badRequest(ex.getMessage());
+    }
 }
