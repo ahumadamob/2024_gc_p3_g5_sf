@@ -68,6 +68,13 @@ public class ProfesorServiceImpl implements IProfesorService{
 		}
 		profesor.getMaterias().add(materia);
 		return repo.save(profesor);
+	public Profesor updateStatus(Integer id, String nuevoEstado) {
+	    if (exists(id)) {
+	        Profesor profesor = getById(id);
+	        profesor.setEstado(nuevoEstado);
+	        return save(profesor);
+	    }
+		return null;
 	}
 
 

@@ -55,6 +55,21 @@ public class RegistroNotasController {
 						: ResponseUtil.notFound("No se encontraron registros de notas con este id.");
 	}
 	
+	@PutMapping("/actualizar_nota/{id}")
+	public ResponseEntity<APIResponse<RegistroNotas>> actualizarNota(
+	        @PathVariable("id") Integer id, 
+	        @RequestBody RegistroNotas nuevaNota) {
+	    if (registroNotasService.exists(id)) {
+	        RegistroNotas registro = registroNotasService.getById(id);
+	        registro.setNota(nuevaNota.getNota());
+	        RegistroNotas updatedRegistro = registroNotasService.save(registro);
+	        return ResponseUtil.ok(updatedRegistro, "La nota fue actualizada correctamente.");
+	    } else {
+	        return ResponseUtil.notFound("No se encontraron registros de notas con este id.");
+	    }
+	}
+	
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<String>> eliminarRegistroNotas(@PathVariable("id") Integer id) {
 		if (registroNotasService.exists(id)) {

@@ -26,6 +26,22 @@ public class ProfesorController {
 	@Autowired
 	IProfesorService profesorService;
 	
+	@PutMapping("/actualizar_estado/{id}")
+	public ResponseEntity<APIResponse<Profesor>> actualizarEstadoProfesor(@PathVariable("id") Integer id, @RequestBody String nuevoEstado) {
+
+		if (!profesorService.exists(id)) {
+	        return ResponseUtil.notFound("No existe un profesor con id " + id.toString() + ".");
+	    }
+
+	    List<String> estadosPermitidos = List.of("activo", "inactivo", "licenciado");
+	    if (!estadosPermitidos.contains(nuevoEstado)) {
+	        return ResponseUtil.badRequest("Estado inválido. Los estados permitidos son: " + estadosPermitidos);
+	    }
+
+	    return ResponseUtil.success(profesorService.updateStatus(id,nuevoEstado));
+	}
+	
+	
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Profesor>>> mostrarTodosLosProfesores() {	
 		List<Profesor> profesores = profesorService.getAll();
