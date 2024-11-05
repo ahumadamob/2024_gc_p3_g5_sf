@@ -14,6 +14,8 @@ public interface IProfesorService {
 	public Profesor updateStatus(Integer id, String nuevoEstado);
 	
 	List<Profesor> encontrarProfesoresTitulares();
-	
-	
+
+	Profesor asignarMateria(Integer profesorId, Integer materiaId);
+	Profesor eliminarMateria(Integer profesorId, Integer materiaId);
+
 }

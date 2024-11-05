@@ -1,5 +1,6 @@
 package com.iesmb.gestionalumnos.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -49,6 +51,32 @@ public class Materia {
 	@JsonIgnore
     @OneToMany(mappedBy = "materia")
     private List<Curso> cursos;
+	
+	
+	
+	
+	
+	
+	@JsonIgnore
+    @ManyToMany(mappedBy = "materias")
+    private List<Profesor> profesores = new ArrayList<>();
+	
+	public List<Profesor> getProfesores() {
+		return profesores;
+	}
+
+	public void setProfesores(List<Profesor> profesores) {
+		this.profesores = profesores;
+	}
+
+
+
+
+
+
+
+
+
 
 	public Integer getId() {
 		return id;
