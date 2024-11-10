@@ -59,15 +59,17 @@ public class ProfesorServiceImpl implements IProfesorService{
 
         if (!repo.existsById(id)) {
             return false;
-        }        if (fecha == null || tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
-        			return false;
-        		 }
+        }        
+        if (fecha == null || tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
+        	return false;
+        }
+        return true;
+    }
+    
 	@Override
 	@Transactional
 	public Profesor asignarMateria(Integer profesorId, Integer materiaId) {
 
-        Profesor profesor = repo.findById(id).orElse(null);
-        if (profesor != null) {
 		Profesor profesor = repo.findById(profesorId).orElse(null);
 		if (profesor == null) {
 			return null;
@@ -78,6 +80,8 @@ public class ProfesorServiceImpl implements IProfesorService{
 		}
 		profesor.getMaterias().add(materia);
 		return repo.save(profesor);
+	}
+	
 	public Profesor updateStatus(Integer id, String nuevoEstado) {
 	    if (exists(id)) {
 	        Profesor profesor = getById(id);
@@ -86,15 +90,6 @@ public class ProfesorServiceImpl implements IProfesorService{
 	    }
 		return null;
 	}
-
-            profesor.agregarAusencia(fecha, tipoAusencia);
-            
-            repo.save(profesor);
-            return true;
-        }
-
-        return false;
-    }
 	
 	@Override
 	public Profesor eliminarMateria(Integer profesorId, Integer materiaId) {
