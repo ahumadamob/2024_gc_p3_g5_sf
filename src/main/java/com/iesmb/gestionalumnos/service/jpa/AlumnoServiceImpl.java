@@ -1,13 +1,12 @@
 package com.iesmb.gestionalumnos.service.jpa;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
 import com.iesmb.gestionalumnos.entity.Alumno;
 import com.iesmb.gestionalumnos.repository.AlumnoRepository;
+import com.iesmb.gestionalumnos.repository.CursoRepository;
 import com.iesmb.gestionalumnos.service.IAlumnoService;
 
 @Service
@@ -16,6 +15,9 @@ public class AlumnoServiceImpl implements IAlumnoService{
 
 	@Autowired
 	private AlumnoRepository repo;
+	
+    @Autowired
+    private CursoRepository cursoRepo;
 
 	@Override
 	public List<Alumno> getAll() {
@@ -44,6 +46,16 @@ public class AlumnoServiceImpl implements IAlumnoService{
 	@Override
 	public List<Alumno> findByApellido(String apellido) {
 		return repo.findByApellido(apellido);
+	}
+
+	@Override
+	public void validarInscripcion(Integer alumnoId, Integer cursoId) {
+	    repo.findById(alumnoId).orElseThrow(() -> 
+	        new IllegalArgumentException("El alumno con ID " + alumnoId + " no existe.")
+	    );
+	    cursoRepo.findById(cursoId).orElseThrow(() -> 
+	        new IllegalArgumentException("El curso con ID " + cursoId + " no existe.")
+	    );
 	}
 
 }
