@@ -1,7 +1,9 @@
 package com.iesmb.gestionalumnos.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.iesmb.gestionalumnos.controller.APIResponse;
 import com.iesmb.gestionalumnos.entity.RegistroAsistencia;
 
 public interface IRegistroAsistenciaService {
@@ -12,5 +14,7 @@ public interface IRegistroAsistenciaService {
 	public RegistroAsistencia save(RegistroAsistencia registro);
 	public void delete(Integer id);
 	public boolean exists(Integer id);
+	public APIResponse<RegistroAsistencia> validarYRegistrarAsistencia(Integer alumnoId, Integer cursoId,
+			LocalDateTime fecha, String estadoAsistencia);
 
 }

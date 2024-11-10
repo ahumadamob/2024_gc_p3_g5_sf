@@ -1,8 +1,11 @@
 package com.iesmb.gestionalumnos.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -60,6 +63,31 @@ public class RegistroAsistenciaController {
 				: ResponseUtil.created(registroAsistenciaService.save(registro),  "El registro fue creado con éxito.");
 			
 	}
+	
+	 @PostMapping("/registrar_asistencia")
+	    public ResponseEntity<APIResponse<RegistroAsistencia>> registrarAsistencia(@RequestBody Map<String, Object> asistenciaData) {
+		 System.out.println("JSON recibido: " + asistenciaData);
+	        Integer alumnoId = (Integer) asistenciaData.get("alumnoId");
+	        Integer cursoId = (Integer) asistenciaData.get("cursoId");
+	        String estadoAsistencia = (String) asistenciaData.get("estadoAsistencia");
+	        LocalDateTime fecha;
+
+	        try {
+	            fecha = LocalDateTime.parse(asistenciaData.get("fecha").toString());
+	        } catch (Exception e) {
+	            return ResponseUtil.badRequest("Formato de fecha inválido.");
+	        }
+
+	        // Llamada al servicio para registrar la asistencia y obtener la respuesta
+	        APIResponse<RegistroAsistencia> resultado = registroAsistenciaService.validarYRegistrarAsistencia(
+	                alumnoId, cursoId, fecha, estadoAsistencia
+	        );
+
+	        // Evaluar el resultado y retornar la respuesta adecuada
+	        return resultado.getStatus() == 201
+	                ? ResponseUtil.created(resultado.getData(), "Asistencia registrada con éxito.")
+	                : ResponseUtil.error(HttpStatus.BAD_REQUEST, resultado.getMessages().get(0));
+	    }
 	
 	@PutMapping
 	public ResponseEntity<APIResponse<RegistroAsistencia>> modificarRegistroAsistencia(@RequestBody RegistroAsistencia registro) {
