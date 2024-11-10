@@ -1,5 +1,6 @@
 package com.iesmb.gestionalumnos.service.jpa;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.iesmb.gestionalumnos.repository.MateriaRepository;
@@ -53,7 +54,18 @@ public class ProfesorServiceImpl implements IProfesorService{
         return repo.findByTitularidad(true);
     }
 
+    @Override
+    public boolean registrarAusencia(Integer id, LocalDate fecha, String tipoAusencia) {
 
+        if (!repo.existsById(id)) {
+            return false;
+        }        
+        if (fecha == null || tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
+        	return false;
+        }
+        return true;
+    }
+    
 	@Override
 	@Transactional
 	public Profesor asignarMateria(Integer profesorId, Integer materiaId) {
@@ -68,6 +80,8 @@ public class ProfesorServiceImpl implements IProfesorService{
 		}
 		profesor.getMaterias().add(materia);
 		return repo.save(profesor);
+	}
+	
 	public Profesor updateStatus(Integer id, String nuevoEstado) {
 	    if (exists(id)) {
 	        Profesor profesor = getById(id);
@@ -76,8 +90,7 @@ public class ProfesorServiceImpl implements IProfesorService{
 	    }
 		return null;
 	}
-
-
+	
 	@Override
 	public Profesor eliminarMateria(Integer profesorId, Integer materiaId) {
 			Profesor profesor = getById(profesorId);

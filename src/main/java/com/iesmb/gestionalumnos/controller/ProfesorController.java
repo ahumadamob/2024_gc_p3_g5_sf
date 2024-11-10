@@ -1,8 +1,10 @@
 package com.iesmb.gestionalumnos.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iesmb.gestionalumnos.entity.Profesor;
@@ -69,6 +72,24 @@ public class ProfesorController {
 				? ResponseUtil.badRequest("Ya existe un profesor con id " + profesor.getId().toString() + ".") 
 				: ResponseUtil.created(profesorService.save(profesor), "El profesor fue creado con éxito");		
 	}
+	
+    @PostMapping("/registrar_ausencia/{id}")
+    public ResponseEntity<APIResponse<String>> registrarAusencia(
+            @PathVariable Integer id, // Usamos @PathVariable para obtener el id del profesor
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
+            @RequestParam String tipoAusencia) {
+
+        if (!profesorService.exists(id)) {
+            return ResponseUtil.notFound("No se encontró un profesor con id " + id + ".");
+        }
+
+        boolean registrada = profesorService.registrarAusencia(id, fecha, tipoAusencia);
+
+        return (registrada)
+                ? ResponseUtil.success("La ausencia ha sido registrada exitosamente.")
+                : ResponseUtil.badRequest("No se pudo registrar la ausencia. Verifique los datos proporcionados.");
+    }
+	
 	
 	@PutMapping	
 	public ResponseEntity<APIResponse<Profesor>> modificarProfesor(@RequestBody Profesor profesor) {

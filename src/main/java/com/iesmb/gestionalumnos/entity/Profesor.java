@@ -6,7 +6,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -63,6 +71,9 @@ public class Profesor {
 	@OneToMany(mappedBy = "profesor")
 	private List<Curso> cursos;
 	
+    @ElementCollection
+    private List<String> ausencias = new ArrayList<>();
+    
 	
 	
 	
@@ -191,5 +202,7 @@ public class Profesor {
 		this.cursos = cursos;
 	}
 	
-	
+    public void agregarAusencia(LocalDate fecha, String tipo) {
+        ausencias.add("Fecha: " + fecha + ", Tipo: " + tipo);
+    }
 }
