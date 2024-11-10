@@ -1,7 +1,6 @@
 package com.iesmb.gestionalumnos.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,10 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.iesmb.gestionalumnos.dto.InscripcionDTO;
 import com.iesmb.gestionalumnos.entity.Alumno;
 import com.iesmb.gestionalumnos.service.IAlumnoService;
-
 import jakarta.validation.ConstraintViolationException;
 
 @RestController
@@ -25,6 +23,7 @@ public class AlumnoController {
 	
 	@Autowired
 	public IAlumnoService alumnoService;
+	
 	
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Alumno>>> mostrarTodosLosAlumnos() {		
@@ -41,7 +40,7 @@ public class AlumnoController {
 				: ResponseUtil.notFound("No se encontró ningún alumno.");
 	}
 	
-	@GetMapping("/{apellido}")
+	@GetMapping("/apellido/{apellido}")
 	public ResponseEntity<APIResponse<List<Alumno>>>mostrarApellido(@PathVariable("apellido") String apellido) {
 		List<Alumno> alumnos = alumnoService.findByApellido(apellido);
 		if (alumnos.isEmpty()) {
@@ -51,12 +50,25 @@ public class AlumnoController {
 		}
 	}
 	
+	
 	@PostMapping
 	public ResponseEntity<APIResponse<Alumno>> crearAlumno(@RequestBody Alumno alumno) {
 		return (alumnoService.exists(alumno.getId()))
 				? ResponseUtil.badRequest("Ya existe un alumno con el id " + alumno.getId().toString() + ".")
 				: ResponseUtil.created(alumnoService.save(alumno), "El alumno fue creado correctamente.");
 	}
+	
+	@PostMapping("/registrar_inscripcion")
+	public ResponseEntity<APIResponse<Alumno>> registrarInscripcion(
+	        @RequestBody InscripcionDTO inscripcionDTO) {
+
+	    alumnoService.validarInscripcion(inscripcionDTO.getAlumnoId(), inscripcionDTO.getCursoId());
+
+	    Alumno alumno = alumnoService.getById(inscripcionDTO.getAlumnoId());
+	    alumno.setFechaInscripcion(inscripcionDTO.getFechaInscripcion());
+	    return ResponseUtil.success(alumnoService.save(alumno));
+	}
+	
 	
 	@PutMapping	
 	public ResponseEntity<APIResponse<Alumno>> modificarAlumno(@RequestBody Alumno alumno) {
@@ -78,9 +90,14 @@ public class AlumnoController {
 			return ResponseUtil.notFound("No existe un alumno con el id " + id.toString() + ".");
 		}
 	}
-	
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){
-			return ResponseUtil.handleConstraintException(ex);
-	}
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex) {
+        return ResponseUtil.handleConstraintException(ex);
+    }
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<APIResponse<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseUtil.badRequest(ex.getMessage());
+    }
 }

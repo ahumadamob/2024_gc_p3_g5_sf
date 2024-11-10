@@ -72,6 +72,37 @@ public class Profesor {
     private List<String> ausencias = new ArrayList<>();
     
 	
+	
+	
+	
+	
+	
+	@ManyToMany
+	@JoinTable(
+	    name = "profesor_materia",
+	    joinColumns = @JoinColumn(name = "profesor_id"),
+	    inverseJoinColumns = @JoinColumn(name = "materia_id")
+	)
+	private List<Materia> materias = new ArrayList<>();
+
+
+	public List<Materia> getMaterias() {
+		return materias;
+	}
+
+	public void setMaterias(List<Materia> materias) {
+		this.materias = materias;
+	}
+
+
+
+
+
+
+
+
+
+
 	public boolean isTitularidad() {
 		return titularidad;
 	}

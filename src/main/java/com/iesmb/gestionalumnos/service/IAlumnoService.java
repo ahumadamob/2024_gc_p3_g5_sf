@@ -1,9 +1,7 @@
 package com.iesmb.gestionalumnos.service;
 
 import java.util.List;
-
 import com.iesmb.gestionalumnos.entity.Alumno;
-
 
 public interface IAlumnoService {
 
@@ -14,4 +12,5 @@ public interface IAlumnoService {
 	public boolean exists(Integer id);	
 	
 	public List<Alumno> findByApellido (String apellido);
+	public void validarInscripcion(Integer alumnoId, Integer cursoId);
 }

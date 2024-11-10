@@ -12,10 +12,15 @@ public interface IProfesorService {
 	public Profesor save (Profesor profesor);
 	public void delete (Integer id);
 	public boolean exists (Integer id);
+	public Profesor updateStatus(Integer id, String nuevoEstado);
 
 	boolean registrarAusencia(Integer id, LocalDate fecha, String tipoAusencia);
 	
 	List<Profesor> encontrarProfesoresTitulares();
+
+	Profesor asignarMateria(Integer profesorId, Integer materiaId);
+	Profesor eliminarMateria(Integer profesorId, Integer materiaId);
+
 	
 	
 }

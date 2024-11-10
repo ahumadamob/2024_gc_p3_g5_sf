@@ -3,13 +3,17 @@ package com.iesmb.gestionalumnos.service.jpa;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.iesmb.gestionalumnos.repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.iesmb.gestionalumnos.entity.Profesor;
+import com.iesmb.gestionalumnos.entity.Materia;
+
 import com.iesmb.gestionalumnos.repository.ProfesorRepository;
 import com.iesmb.gestionalumnos.service.IProfesorService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Primary
@@ -17,7 +21,8 @@ public class ProfesorServiceImpl implements IProfesorService{
 
 	@Autowired
 	ProfesorRepository repo;
-
+	@Autowired
+	MateriaRepository materiaRepo;
 
 	@Override
 	public List<Profesor> getAll() {		
@@ -57,9 +62,30 @@ public class ProfesorServiceImpl implements IProfesorService{
         }        if (fecha == null || tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
         			return false;
         		 }
+	@Override
+	@Transactional
+	public Profesor asignarMateria(Integer profesorId, Integer materiaId) {
 
         Profesor profesor = repo.findById(id).orElse(null);
         if (profesor != null) {
+		Profesor profesor = repo.findById(profesorId).orElse(null);
+		if (profesor == null) {
+			return null;
+		}
+		Materia materia = materiaRepo.findById(materiaId).orElse(null);
+		if (materia == null) {
+			return null;
+		}
+		profesor.getMaterias().add(materia);
+		return repo.save(profesor);
+	public Profesor updateStatus(Integer id, String nuevoEstado) {
+	    if (exists(id)) {
+	        Profesor profesor = getById(id);
+	        profesor.setEstado(nuevoEstado);
+	        return save(profesor);
+	    }
+		return null;
+	}
 
             profesor.agregarAusencia(fecha, tipoAusencia);
             
@@ -70,4 +96,18 @@ public class ProfesorServiceImpl implements IProfesorService{
         return false;
     }
 	
+	@Override
+	public Profesor eliminarMateria(Integer profesorId, Integer materiaId) {
+			Profesor profesor = getById(profesorId);
+
+			Materia materia = materiaRepo.findById(materiaId).orElse(null);
+
+
+			if (profesor != null && materia != null) {
+				profesor.getMaterias().remove(materia);
+				return repo.save(profesor);
+			}
+			return null;
+	}
+
 }

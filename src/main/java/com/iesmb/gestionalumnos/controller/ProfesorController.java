@@ -29,6 +29,22 @@ public class ProfesorController {
 	@Autowired
 	IProfesorService profesorService;
 	
+	@PutMapping("/actualizar_estado/{id}")
+	public ResponseEntity<APIResponse<Profesor>> actualizarEstadoProfesor(@PathVariable("id") Integer id, @RequestBody String nuevoEstado) {
+
+		if (!profesorService.exists(id)) {
+	        return ResponseUtil.notFound("No existe un profesor con id " + id.toString() + ".");
+	    }
+
+	    List<String> estadosPermitidos = List.of("activo", "inactivo", "licenciado");
+	    if (!estadosPermitidos.contains(nuevoEstado)) {
+	        return ResponseUtil.badRequest("Estado inválido. Los estados permitidos son: " + estadosPermitidos);
+	    }
+
+	    return ResponseUtil.success(profesorService.updateStatus(id,nuevoEstado));
+	}
+	
+	
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Profesor>>> mostrarTodosLosProfesores() {	
 		List<Profesor> profesores = profesorService.getAll();
@@ -96,7 +112,44 @@ public class ProfesorController {
 			return ResponseUtil.notFound("No existe un profesor con id " + id.toString() + ".");
 		}		
 	}
-	
+
+
+	@PostMapping("/{profesorId}/materias/{materiaId}")
+	public ResponseEntity<APIResponse<Profesor>> asignarMateria(@PathVariable Integer profesorId, @PathVariable Integer materiaId) {
+		Profesor profesorActualizado = profesorService.asignarMateria(profesorId, materiaId);
+
+		if (profesorActualizado != null) {
+			return ResponseUtil.success(profesorActualizado);
+		} else {
+			if (!profesorService.exists(profesorId)) {
+				return ResponseUtil.notFound("No se encontró un profesor con el ID " + profesorId + ".");
+			} else {
+				return ResponseUtil.notFound("No se encontró la materia con el ID " + materiaId + ".");
+			}
+		}
+	}
+
+
+
+	@DeleteMapping("/{profesorId}/materias/{materiaId}")
+	public ResponseEntity<APIResponse<Profesor>> eliminarMateriaDeProfesor(
+			@PathVariable("profesorId") Integer profesorId,
+			@PathVariable("materiaId") Integer materiaId) {
+		Profesor profesorActualizado = profesorService.eliminarMateria(profesorId, materiaId);
+		if (profesorActualizado != null) {
+			return ResponseUtil.success(profesorActualizado);
+		} else {
+			return ResponseUtil.notFound("No se encontró el profesor o la materia para eliminar la asignación.");
+		}
+	}
+
+
+
+
+
+
+
+
 	
 	
 	@ExceptionHandler(ConstraintViolationException.class)
