@@ -92,4 +92,24 @@ public class RegistroNotasController {
 		return ResponseUtil.handleConstraintException(ex);
 	}
 	
+	@PostMapping("/nuevo")
+	public ResponseEntity<APIResponse<RegistroNotas>> registrarNuevaNota(@RequestBody RegistroNotas registroNotas) {
+	    try {
+	        // Guardar el registro con validaciones en el servicio
+	        RegistroNotas nuevaNota = registroNotasService.save(registroNotas);
+
+	        return ResponseUtil.created(nuevaNota, "El registro de la nota fue creado exitosamente.");
+	    } catch (IllegalArgumentException e) {
+	        // Manejar errores de validación y retornar respuesta adecuada
+	        return ResponseUtil.badRequest(e.getMessage());
+	    }
+	      
+	}
+	
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<APIResponse<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+	    return ResponseUtil.badRequest(ex.getMessage());
+	}	
+	
 }
