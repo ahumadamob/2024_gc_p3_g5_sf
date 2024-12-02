@@ -1,5 +1,6 @@
 package com.iesmb.gestionalumnos.entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class RegistroNotas {
     
     @NotBlank(message = "El tipo de evaluación no puede estar vacío.")
 	@Size(max = 15, message = "El tipo de evaluación no debe superar los 15 caracteres.")
-	private String tipo_evaluacion;
+	private String tipoEvaluacion;
     
     @NotBlank(message = "El peso porcentual no puede estar vacío.")
 	@Size(max = 15, message = "El peso porcentual no debe superar los 15 caracteres.")
@@ -45,7 +46,13 @@ public class RegistroNotas {
 	@ManyToOne
     @JoinColumn(name = "id_alumno", nullable = false)
 	private Alumno alumno;
-
+	
+	//Agrego atributos "fechaRegisto" y "esFinal"
+	//Creacion de getter y setter
+	private String fechaRegistro;
+	
+	private Boolean esFinal;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -62,12 +69,12 @@ public class RegistroNotas {
 		this.nota = nota;
 	}
 
-	public String getTipo_evaluacion() {
-		return tipo_evaluacion;
+	public String getTipoEvaluacion() {
+		return tipoEvaluacion;
 	}
 
-	public void setTipo_evaluacion(String tipo_evaluacion) {
-		this.tipo_evaluacion = tipo_evaluacion;
+	public void setTipoEvaluacion(String tipoEvaluacion) {
+		this.tipoEvaluacion = tipoEvaluacion;
 	}
 
 	public String getPeso_porcentual() {
@@ -100,6 +107,22 @@ public class RegistroNotas {
 
 	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
+	}
+
+	public String getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(String string) {
+		this.fechaRegistro = string;
+	}
+
+	public Boolean getEsFinal() {
+		return esFinal;
+	}
+
+	public void setEsFinal(Boolean esFinal) {
+		this.esFinal = esFinal;
 	}
 	
 
