@@ -48,5 +48,10 @@ public class CursoServiceImpl implements ICursoService {
 		return repo.getBycupoMaximo(cupoMaximo);
 	}
 
+	@Override
+	public boolean existsByAulaAndSemestre(String aula, String semestre) {
+		return repo.existsByAulaAndSemestre(aula, semestre);
+	}
+
 
 }

@@ -56,6 +56,18 @@ public class Profesor {
 	@Size(max = 25, message = "El genero no puede superar los 25 caracteres.")
 	private String genero;
 	
+	@NotBlank(message = "Los años de experiencia no pueden estar vacíos.")
+	@Size(max = 25, message = "El genero no puede superar los 25 caracteres.")
+	private Integer ExperienciaAnios;
+	
+	public Integer getExperienciaAnios() {
+		return ExperienciaAnios;
+	}
+
+	public void setExperienciaAnios(Integer experienciaAnios) {
+		ExperienciaAnios = experienciaAnios;
+	}
+
 	@NotNull(message = "La fecha de contratacion no puede estar vacía.")
 	@PastOrPresent
 	private LocalDate fechaDeContratacion;

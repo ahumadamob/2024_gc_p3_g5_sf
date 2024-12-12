@@ -9,5 +9,7 @@ import com.iesmb.gestionalumnos.entity.Curso;
 public interface CursoRepository extends JpaRepository <Curso, Integer>{
 	
 	List<Curso> getBycupoMaximo(Integer cupoMaximo);
+	
+	boolean existsByAulaAndSemestre(String aula, String semestre);
 
 }

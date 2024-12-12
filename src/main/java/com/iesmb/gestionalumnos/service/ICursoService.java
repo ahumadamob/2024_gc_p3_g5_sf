@@ -18,4 +18,6 @@ public interface ICursoService {
 
 	public List<Curso> getBycupoMaximo(Integer cupoMaximo);
 
+	public boolean existsByAulaAndSemestre(String aula, String semestre);
+
 }
