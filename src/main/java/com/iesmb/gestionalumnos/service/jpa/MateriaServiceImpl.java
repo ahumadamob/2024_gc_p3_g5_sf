@@ -45,4 +45,9 @@ public class MateriaServiceImpl implements IMateriaService {
 	public List<Materia> getByNivel(String nivel) {
 		return materiaRepo.findByNivel(nivel);
 	}
+
+    @Override
+    public boolean existsNombreAndNivel(String nombre, String nivel) {
+        return materiaRepo.existsByNombreAndNivel(nombre, nivel);
+    }
 }

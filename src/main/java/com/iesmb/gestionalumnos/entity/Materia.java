@@ -11,8 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -36,14 +34,12 @@ public class Materia {
 	@Size(max = 20, message = "Los créditos no pueden superar los 20 caracteres.")
 	private String creditos;
 	
-	@NotNull(message = "La cantidad de horas semanales no puede estar vacío.")
-    @Min(value = 0, message = "La cantidad de horas semanales no puede ser menor a 0")
-    @Max(value = 99, message = "La cantidad de horas semanales no puede superar los 2 dígitos")
-	private int horasSemanales;
+    @NotNull(message = "La cantidad de horas semanales no puede estar vacío.")
+    private int horasSemanales;
 	
-	@NotBlank(message = "El tipo de nivel no puede estar vacío.")
-	@Size(max = 12, message = "El tipo de nivel no puede superar los 12 caracteres.")
-	private String nivel;
+    @NotBlank(message = "El tipo de nivel no puede estar vacío.")
+    @Size(max = 12, message = "El tipo de nivel no puede superar los 12 caracteres.")
+    private String nivel;
 	
 	@Size(max = 50, message = "Los requisitos previos no pueden superar los 50 caracteres.")
 	private String requisitosPrevios;

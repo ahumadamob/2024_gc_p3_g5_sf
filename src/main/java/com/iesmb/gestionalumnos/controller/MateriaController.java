@@ -3,6 +3,8 @@ package com.iesmb.gestionalumnos.controller;
 import com.iesmb.gestionalumnos.entity.Materia;
 import com.iesmb.gestionalumnos.service.IMateriaService;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,13 +40,30 @@ public class MateriaController {
 		}
 	}
 
-    @PostMapping
-    public ResponseEntity<APIResponse<Materia>> crearMateria(@RequestBody Materia materia) {
+	@PostMapping
+	public ResponseEntity<APIResponse<Materia>> crearMateria(@Valid @RequestBody Materia materia) {
+		
+	    // Validación del tipo de nivel
+	    List<String> nivelesValidos = List.of("Básico", "Intermedio", "Avanzado");
+	    if (!nivelesValidos.contains(materia.getNivel())) {
+	        return ResponseUtil.badRequest("El tipo de nivel debe ser 'Básico', 'Intermedio' o 'Avanzado'.");
+	    }
 
-        return (materiaService.exists(materia.getId())) ? ResponseUtil.badRequest("Ya existe una materia con el id indicado.")
-                : ResponseUtil.created(materiaService.save(materia),  "La materia fue creada con éxito.");
+	    // Validación de horas semanales
+	    if (materia.getHorasSemanales() < 5) {
+	        return ResponseUtil.badRequest("La cantidad de horas semanales no puede ser menor a 5.");
+	    }
 
-    }
+	    // Validación de existencia de materia con el mismo nombre y nivel
+	    if (materiaService.existsNombreAndNivel(materia.getNombre(), materia.getNivel())) {
+	        return ResponseUtil.badRequest("Ya existe una materia con el nombre '" + materia.getNombre() + "' y nivel '" + materia.getNivel() + "'.");
+	    }
+
+	    // Creación de la materia
+	    Materia createdMateria = materiaService.save(materia);
+	    return ResponseUtil.created(createdMateria, "La materia fue creada con éxito.");
+	}
+
 
     @PutMapping
     public ResponseEntity<APIResponse<Materia>> modificarMateria(@RequestBody Materia materia) {
