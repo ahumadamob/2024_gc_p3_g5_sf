@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.iesmb.gestionalumnos.entity.Curso;
+import com.iesmb.gestionalumnos.entity.Profesor;
 import com.iesmb.gestionalumnos.service.ICursoService;
+import com.iesmb.gestionalumnos.service.IProfesorService;
+
 import jakarta.validation.ConstraintViolationException;
 
 
@@ -24,6 +27,9 @@ import jakarta.validation.ConstraintViolationException;
 public class CursoController {
 	@Autowired
 	private ICursoService cursoService;
+	
+	@Autowired
+	IProfesorService profesorService;
 	
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Curso>>> mostrarTodosLosCursos() {	
@@ -57,6 +63,25 @@ public class CursoController {
 				? ResponseUtil.badRequest("Ya existe un curso con id " + curso.getId().toString() + ".") 
 				: ResponseUtil.created(cursoService.save(curso), "El curso fue creado con éxito");		
 	}
+	
+	
+	@PostMapping("/crearAula")
+	public ResponseEntity<APIResponse<Curso>> crearCursoCon50(@RequestBody Curso curso) {
+		if (curso.getCupoMaximo() > 50) {
+			return ResponseUtil.badRequest("El cupo máximo no puede ser mayor a 50.");
+		}
+		Profesor profesor = profesorService.getById(curso.getProfesor().getId());
+		if (profesor == null || profesor.getExperienciaAnios() <= 5) {
+			return ResponseUtil.badRequest("El profesor debe tener más de 5 años de experiencia.");
+		}
+		if (cursoService.existsByAulaAndSemestre(curso.getAula(), curso.getSemestre())) {
+			return ResponseUtil.badRequest("Ya existe un curso con el nombre '" + curso.getAula() + "' en el semestre '" + curso.getSemestre() + "'.");
+		}
+		curso.setProfesor(profesor);
+		Curso nuevoCurso = cursoService.save(curso);
+		return ResponseUtil.created(nuevoCurso, "El curso fue creado con éxito");
+	}
+	
 	
 	@PutMapping	
 	public ResponseEntity<APIResponse<Curso>> modificarCurso(@RequestBody Curso curso) {
