@@ -87,6 +87,46 @@ public class RegistroAsistenciaServiceImpl implements IRegistroAsistenciaService
 
 	        return new APIResponse<>(HttpStatus.CREATED.value(), Collections.singletonList("Asistencia registrada con éxito."), registroGuardado);
 	    }
+
+	@Override
+	public APIResponse<RegistroAsistencia> registrarAsistenciaValidada(Integer alumnoId, Integer cursoId, LocalDateTime fecha, String estadoAsistencia) {
+
+	    // Validar si el alumno está activo
+	    if (!alumnoRepository.existsByIdAndActivo(alumnoId, true)) {
+	        return new APIResponse<>(
+	            HttpStatus.BAD_REQUEST.value(), 
+	            List.of("El alumno ingresado no está activo."), 
+	            null
+	        );
+	    }
+
+	    // Validar si el curso existe
+	    if (!cursoRepository.existsById(cursoId)) {
+	        return new APIResponse<>(
+	            HttpStatus.BAD_REQUEST.value(), 
+	            List.of("El curso con ID " + cursoId + " no existe."), 
+	            null
+	        );
+	    }
+
+	    // Crear el registro de asistencia
+	    Alumno alumno = alumnoRepository.findById(alumnoId).orElse(null);
+	    Curso curso = cursoRepository.findById(cursoId).orElse(null);
+
+	    RegistroAsistencia asistencia = new RegistroAsistencia();
+	    asistencia.setAlumno(alumno);
+	    asistencia.setCurso(curso);
+	    asistencia.setFecha(fecha);
+	    asistencia.setEstadoAsistencia(estadoAsistencia);
+
+	    RegistroAsistencia registroGuardado = repo.save(asistencia);
+
+	    return new APIResponse<>(
+	        HttpStatus.CREATED.value(), 
+	        List.of("Asistencia registrada con éxito."), 
+	        registroGuardado
+	    );
+	}
 	
 
 }

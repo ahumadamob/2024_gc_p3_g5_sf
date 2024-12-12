@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iesmb.gestionalumnos.entity.RegistroAsistencia;
+import com.iesmb.gestionalumnos.service.IAlumnoService;
+import com.iesmb.gestionalumnos.service.ICursoService;
 import com.iesmb.gestionalumnos.service.IRegistroAsistenciaService;
 
 import jakarta.validation.ConstraintViolationException;
@@ -28,7 +30,9 @@ public class RegistroAsistenciaController {
 	
 	@Autowired
 	public IRegistroAsistenciaService registroAsistenciaService;
-	
+	public IAlumnoService alumnoService;
+	public ICursoService cursoService;
+
 	
 	@GetMapping
 	public ResponseEntity<APIResponse<List<RegistroAsistencia>>> mostrarTodosLosRegistrosAsistencia() {
@@ -115,4 +119,21 @@ public class RegistroAsistenciaController {
 		return ResponseUtil.handleConstraintException(ex);
 	}
 
+	@PostMapping("/registrar")
+	public ResponseEntity<APIResponse<RegistroAsistencia>> registroAsistencia(@RequestBody RegistroAsistencia registro) {
+	    // Llamada al servicio para registrar la asistencia
+	    APIResponse<RegistroAsistencia> resultado = registroAsistenciaService.registrarAsistenciaValidada(
+	        registro.getAlumno().getId(), registro.getCurso().getId(), registro.getFecha(), registro.getEstadoAsistencia()
+	    );
+
+	    // Evaluar el resultado y retornar la respuesta
+	    if (resultado.getStatus() == 201) {
+	        return ResponseUtil.created(resultado.getData(), "Asistencia registrada con éxito.");
+	    } else {
+	        return ResponseUtil.error(HttpStatus.BAD_REQUEST, resultado.getMessages().get(0));
+	    }
+	}
+
+	
+	
 }

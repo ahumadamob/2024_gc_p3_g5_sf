@@ -57,6 +57,9 @@ public class Alumno {
     @PastOrPresent
     private Date fechaInscripcion;
     
+    @NotNull(message = "No puede ser un campo vacio.")
+    private boolean activo;
+    
     @NotBlank(message = "Debe ingresar un estado.")
 	@Size(max = 10, message = "El estado académino no debe superar los 10 caracteres.")
     private String estado;

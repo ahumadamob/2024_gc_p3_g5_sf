@@ -2,6 +2,10 @@ package com.iesmb.gestionalumnos.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +25,7 @@ public class RegistroAsistencia {
 	
 	@NotNull(message = "La fecha ingresada no puede estar vacía.")
 	@Past(message = "La fecha y hora ingresadas no sucedieron aún.")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime fecha;
 	
 	@NotBlank(message = "El estado de la asistencia no puede estar vacío.")
@@ -51,6 +56,8 @@ public class RegistroAsistencia {
 		this.id = id;
 	}
 
+	@NotNull(message = "La fecha y hora no pueden ser nulas.")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	public LocalDateTime getFecha() {
 		return fecha;
 	}
