@@ -73,13 +73,8 @@ public class Profesor {
 	
     @ElementCollection
     private List<String> ausencias = new ArrayList<>();
-    
-	
-	
-	
-	
-	
-	
+   
+
 	@ManyToMany
 	@JoinTable(
 	    name = "profesor_materia",

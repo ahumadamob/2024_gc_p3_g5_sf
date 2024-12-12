@@ -20,6 +20,7 @@ public interface IProfesorService {
 
 	Profesor asignarMateria(Integer profesorId, Integer materiaId);
 	Profesor eliminarMateria(Integer profesorId, Integer materiaId);
+	
 
 	
 	
