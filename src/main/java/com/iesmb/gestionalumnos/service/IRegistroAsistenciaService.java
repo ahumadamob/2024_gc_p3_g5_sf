@@ -16,5 +16,8 @@ public interface IRegistroAsistenciaService {
 	public boolean exists(Integer id);
 	public APIResponse<RegistroAsistencia> validarYRegistrarAsistencia(Integer alumnoId, Integer cursoId,
 			LocalDateTime fecha, String estadoAsistencia);
+	
+	APIResponse<RegistroAsistencia> registrarAsistenciaValidada(Integer alumnoId, Integer cursoId, LocalDateTime fecha, String estadoAsistencia);
+
 
 }

@@ -11,4 +11,5 @@ public interface RegistroAsistenciaRepository extends JpaRepository<RegistroAsis
 	public List<RegistroAsistencia> findByTipoAusencia(String tipoAusencia);
 	
 	
+	
 }
