@@ -1,10 +1,13 @@
 package com.iesmb.gestionalumnos.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iesmb.gestionalumnos.entity.Profesor;
+import com.iesmb.gestionalumnos.entity.RegistrarAusenciaRequest;
+import com.iesmb.gestionalumnos.entity.RegistroAsistencia;
 import com.iesmb.gestionalumnos.service.IProfesorService;
+import com.iesmb.gestionalumnos.service.IRegistroAsistenciaService;
 
 import jakarta.validation.ConstraintViolationException;
 
@@ -28,6 +34,8 @@ public class ProfesorController {
 	
 	@Autowired
 	IProfesorService profesorService;
+	@Autowired
+	IRegistroAsistenciaService registroAsistenciaService;
 	
 	@PutMapping("/actualizar_estado/{id}")
 	public ResponseEntity<APIResponse<Profesor>> actualizarEstadoProfesor(@PathVariable("id") Integer id, @RequestBody String nuevoEstado) {
@@ -73,22 +81,6 @@ public class ProfesorController {
 				: ResponseUtil.created(profesorService.save(profesor), "El profesor fue creado con éxito");		
 	}
 	
-    @PostMapping("/registrar_ausencia/{id}")
-    public ResponseEntity<APIResponse<String>> registrarAusencia(
-            @PathVariable Integer id, // Usamos @PathVariable para obtener el id del profesor
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
-            @RequestParam String tipoAusencia) {
-
-        if (!profesorService.exists(id)) {
-            return ResponseUtil.notFound("No se encontró un profesor con id " + id + ".");
-        }
-
-        boolean registrada = profesorService.registrarAusencia(id, fecha, tipoAusencia);
-
-        return (registrada)
-                ? ResponseUtil.success("La ausencia ha sido registrada exitosamente.")
-                : ResponseUtil.badRequest("No se pudo registrar la ausencia. Verifique los datos proporcionados.");
-    }
 	
 	
 	@PutMapping	
@@ -144,8 +136,42 @@ public class ProfesorController {
 	}
 
 
+	
+	
+	@PostMapping("/registrar_ausencia/{id}")
+	public ResponseEntity<APIResponse<String>> registrarAusencia(
+	        @PathVariable Integer id,
+	        @RequestBody RegistrarAusenciaRequest request) {  // Usamos @RequestBody para recibir el JSON
+
+	    // Verifica que el servicio pueda registrar la ausencia del profesor
+	    boolean ausenciaRegistrada = profesorService.registrarAusencia(id, 
+	        LocalDate.parse(request.getFecha()), request.getTipoAusencia());
+
+	    if (ausenciaRegistrada) {
+	        // Si la ausencia se registró correctamente, responder con éxito
+	        return ResponseUtil.success("Ausencia registrada correctamente.");
+	    } else {
+	        // Si la ausencia no se pudo registrar, determinar el motivo y responder adecuadamente
+	        if (!profesorService.exists(id)) {
+	            return ResponseUtil.notFound("No se encontró un profesor con el ID " + id + ".");
+	        } else if (request.getFecha() == null || request.getTipoAusencia() == null || request.getTipoAusencia().trim().isEmpty()) {
+	            return ResponseUtil.badRequest("La fecha o tipo de ausencia no son válidos.");
+	        } else {
+	            return ResponseUtil.badRequest("Error desconocido al registrar la ausencia.");
+	        }
+	    }
+	}
 
 
+
+
+	
+
+    // Excepciones
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<APIResponse<Object>> handleConstraintViolationException1(ConstraintViolationException ex){
+        return ResponseUtil.handleConstraintException(ex);
+    }
 
 
 
