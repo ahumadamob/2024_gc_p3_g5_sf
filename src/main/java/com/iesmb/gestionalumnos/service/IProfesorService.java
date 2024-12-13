@@ -3,6 +3,7 @@ package com.iesmb.gestionalumnos.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.iesmb.gestionalumnos.controller.Materia;
 import com.iesmb.gestionalumnos.entity.Profesor;
 
 public interface IProfesorService {
@@ -20,6 +21,9 @@ public interface IProfesorService {
 
 	Profesor asignarMateria(Integer profesorId, Integer materiaId);
 	Profesor eliminarMateria(Integer profesorId, Integer materiaId);
+	
+	boolean tieneMateriaActiva(Integer profesorId);
+	public Materia getMateriaAsignada(Integer id);
 	
 
 	

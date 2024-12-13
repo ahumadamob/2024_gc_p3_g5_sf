@@ -60,17 +60,15 @@ public class ProfesorServiceImpl implements IProfesorService{
     @Override
     public boolean registrarAusencia(Integer id, LocalDate fecha, String tipoAusencia) {
 
-        // Verificar que el profesor exista
+        
         if (!repo.existsById(id)) {
             return false;
         }
 
-        // Verificar que la fecha no sea nula ni futura
         if (fecha == null || fecha.isAfter(LocalDate.now())) {
             return false;
         }
 
-        // Verificar que el tipo de ausencia no esté vacío
         if (tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
             return false;
         }
@@ -122,20 +120,15 @@ public class ProfesorServiceImpl implements IProfesorService{
 	
 	
 	
-	
-	
-	
-	
+	@Override
+	public boolean tieneMateriaActiva(Integer profesorId) {
+	    Profesor profesor = repo.findById(profesorId).orElse(null);
+	    if (profesor == null) {
+	        return false; 	    }
+
+	    return profesor.getMaterias().stream()
+	            .anyMatch(materia -> materia.isActiva()); 
+	    }
 		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

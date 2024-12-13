@@ -55,8 +55,22 @@ public class Materia {
 	
 	
 	
+	@NotNull
+	private boolean activa;
+	
+
 	
 	
+
+
+	public boolean isActiva() {
+		return activa;
+	}
+
+	public void setActiva(boolean activa) {
+		this.activa = activa;
+	}
+
 	@JsonIgnore
     @ManyToMany(mappedBy = "materias")
     private List<Profesor> profesores = new ArrayList<>();

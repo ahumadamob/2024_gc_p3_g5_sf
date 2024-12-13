@@ -63,6 +63,38 @@ public class MateriaController {
         }
     }
 
+    
+    
+    
+    // Obtener materias activas
+    @GetMapping("/activas")
+    public ResponseEntity<APIResponse<List<Materia>>> mostrarMateriasActivas() {
+        List<Materia> materias = materiaService.getActivas(true); // true para activas
+        return materias.isEmpty() ? 
+            ResponseUtil.notFound("No se encontraron materias activas.") : 
+            ResponseUtil.success(materias);
+    }
+    
+    
+    
+    @GetMapping("/inactivas")
+    public ResponseEntity<APIResponse<List<Materia>>> mostrarMateriasInactivas() {
+        List<Materia> materias = materiaService.getActivas(false); // false para inactivas
+        return materias.isEmpty() ? 
+            ResponseUtil.notFound("No se encontraron materias inactivas.") : 
+            ResponseUtil.success(materias);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){
 

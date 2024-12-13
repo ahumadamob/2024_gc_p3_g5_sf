@@ -2,6 +2,7 @@ package com.iesmb.gestionalumnos.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -138,20 +139,20 @@ public class ProfesorController {
 
 	
 	
-	@PostMapping("/registrar_ausencia/{id}")
+	/*@PostMapping("/registrar_ausencia/{id}")
 	public ResponseEntity<APIResponse<String>> registrarAusencia(
+			
 	        @PathVariable Integer id,
-	        @RequestBody RegistrarAusenciaRequest request) {  // Usamos @RequestBody para recibir el JSON
-
-	    // Verifica que el servicio pueda registrar la ausencia del profesor
+	        @RequestBody RegistrarAusenciaRequest request) {  
+	   
 	    boolean ausenciaRegistrada = profesorService.registrarAusencia(id, 
 	        LocalDate.parse(request.getFecha()), request.getTipoAusencia());
 
 	    if (ausenciaRegistrada) {
-	        // Si la ausencia se registró correctamente, responder con éxito
+	        
 	        return ResponseUtil.success("Ausencia registrada correctamente.");
 	    } else {
-	        // Si la ausencia no se pudo registrar, determinar el motivo y responder adecuadamente
+	        
 	        if (!profesorService.exists(id)) {
 	            return ResponseUtil.notFound("No se encontró un profesor con el ID " + id + ".");
 	        } else if (request.getFecha() == null || request.getTipoAusencia() == null || request.getTipoAusencia().trim().isEmpty()) {
@@ -160,8 +161,89 @@ public class ProfesorController {
 	            return ResponseUtil.badRequest("Error desconocido al registrar la ausencia.");
 	        }
 	    }
+	}*/
+
+	@PostMapping("/registrar_ausencia/{id}")
+	public ResponseEntity<APIResponse<String>> registrarAusencia(
+	        @PathVariable Integer id,
+	        @RequestBody RegistrarAusenciaRequest request) {
+
+	    if (request.getFecha() == null || request.getTipoAusencia() == null || request.getTipoAusencia().trim().isEmpty()) {
+	        return ResponseUtil.badRequest("La fecha o tipo de ausencia no son válidos.");
+	    }
+
+	    try {
+	        LocalDate fecha = LocalDate.parse(request.getFecha());
+
+	        if (!profesorService.exists(id)) {
+	            return ResponseUtil.notFound("No se encontró un profesor con el ID " + id + ".");
+	        }
+
+	        boolean ausenciaRegistrada = profesorService.registrarAusencia(id, fecha, request.getTipoAusencia());
+
+	        if (ausenciaRegistrada) {
+	            return ResponseUtil.success("Ausencia registrada correctamente.");
+	        } else {
+	            return ResponseUtil.badRequest("Error desconocido al registrar la ausencia.");
+	        }
+
+	    } catch (DateTimeParseException e) {
+	        return ResponseUtil.badRequest("La fecha proporcionada tiene un formato incorrecto.");
+	    }
 	}
 
+	
+	
+	@PostMapping("/registrar_ausencia/{id}")
+	public ResponseEntity<APIResponse<String>> registrarAusencia(
+	        @PathVariable Integer id,
+	        @RequestBody RegistrarAusenciaRequest request) {
+
+	    if (request.getFecha() == null || request.getTipoAusencia() == null || request.getTipoAusencia().trim().isEmpty()) {
+	        return ResponseUtil.badRequest("La fecha o tipo de ausencia no son válidos.");
+	    }
+
+	    try {
+	        LocalDate fecha = LocalDate.parse(request.getFecha());
+
+	        if (!profesorService.exists(id)) {
+	            return ResponseUtil.notFound("No se encontró un profesor con el ID " + id + ".");
+	        }
+
+	        // Verificar si la materia asignada al profesor está activa
+	        Materia materia = profesorService.getMateriaAsignada(id);
+	        if (materia == null || !materia.isActivo()) {  // Asumimos que 'isActivo' devuelve si la materia está activa
+	            return ResponseUtil.badRequest("La materia asignada al profesor no está activa.");
+	        }
+
+	        boolean ausenciaRegistrada = profesorService.registrarAusencia(id, fecha, request.getTipoAusencia());
+
+	        if (ausenciaRegistrada) {
+	            return ResponseUtil.success("Ausencia registrada correctamente.");
+	        } else {
+	            return ResponseUtil.badRequest("Error desconocido al registrar la ausencia.");
+	        }
+
+	    } catch (DateTimeParseException e) {
+	        return ResponseUtil.badRequest("La fecha proporcionada tiene un formato incorrecto.");
+	    }
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
