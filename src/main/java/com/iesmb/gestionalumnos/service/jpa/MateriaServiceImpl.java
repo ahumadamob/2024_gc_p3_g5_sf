@@ -45,4 +45,18 @@ public class MateriaServiceImpl implements IMateriaService {
 	public List<Materia> getByNivel(String nivel) {
 		return materiaRepo.findByNivel(nivel);
 	}
+
+	@Override
+	public List<Materia> getActivas(boolean activa) {
+	    if (activa) {
+	        return materiaRepo.findByActivaTrue();  // Devuelve las materias activas
+	    } else {
+	        return materiaRepo.findByActivaFalse();  // Devuelve las materias no activas (si tienes un método para esto)
+	    }
+	}	
+	
+	
+	
+	
+	
 }

@@ -54,17 +54,30 @@ public class ProfesorServiceImpl implements IProfesorService{
         return repo.findByTitularidad(true);
     }
 
+  
+    
+    
     @Override
     public boolean registrarAusencia(Integer id, LocalDate fecha, String tipoAusencia) {
 
+        
         if (!repo.existsById(id)) {
             return false;
-        }        
-        if (fecha == null || tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
-        	return false;
         }
+
+        if (fecha == null || fecha.isAfter(LocalDate.now())) {
+            return false;
+        }
+
+        if (tipoAusencia == null || tipoAusencia.trim().isEmpty()) {
+            return false;
+        }
+
         return true;
     }
+    
+    
+    
     
 	@Override
 	@Transactional
@@ -104,5 +117,18 @@ public class ProfesorServiceImpl implements IProfesorService{
 			}
 			return null;
 	}
+	
+	
+	
+	@Override
+	public boolean tieneMateriaActiva(Integer profesorId) {
+	    Profesor profesor = repo.findById(profesorId).orElse(null);
+	    if (profesor == null) {
+	        return false; 	    }
+
+	    return profesor.getMaterias().stream()
+	            .anyMatch(materia -> materia.isActiva()); 
+	    }
+		
 
 }
