@@ -48,6 +48,9 @@ public class Materia {
 	@Size(max = 50, message = "Los requisitos previos no pueden superar los 50 caracteres.")
 	private String requisitosPrevios;
 
+	@NotNull(message = "El tipo promocional no puede estar vacío.")
+	private boolean promocional;
+
 	@JsonIgnore
     @OneToMany(mappedBy = "materia")
     private List<Curso> cursos;
@@ -140,6 +143,14 @@ public class Materia {
 
 	public void setCursos(List<Curso> cursos) {
 		this.cursos = cursos;
+	}
+
+	public boolean isPromocional() {
+		return promocional;
+	}
+
+	public void setPromocional(boolean promocional) {
+		this.promocional = promocional;
 	}
 
 	

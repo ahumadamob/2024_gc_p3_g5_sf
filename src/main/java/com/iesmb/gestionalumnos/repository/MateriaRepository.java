@@ -12,4 +12,6 @@ public interface MateriaRepository extends JpaRepository<Materia, Integer> {
 
 
 	List<Materia> findByNivel(String nivel);
+	List<Materia> findByPromocionalTrue();
+
 }

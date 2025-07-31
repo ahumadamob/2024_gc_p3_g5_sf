@@ -12,5 +12,6 @@ public interface IMateriaService {
     public Materia save(Materia materia);
     public void delete(Integer id);
     public boolean exists(Integer id);
+    public List<Materia> obtenerMateriasPromocionales();
 
 }

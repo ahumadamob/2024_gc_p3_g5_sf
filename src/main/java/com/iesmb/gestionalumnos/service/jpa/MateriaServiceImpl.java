@@ -45,4 +45,10 @@ public class MateriaServiceImpl implements IMateriaService {
 	public List<Materia> getByNivel(String nivel) {
 		return materiaRepo.findByNivel(nivel);
 	}
+
+    @Override
+    public List<Materia> obtenerMateriasPromocionales() {
+        return materiaRepo.findByPromocionalTrue();
+    }
+
 }

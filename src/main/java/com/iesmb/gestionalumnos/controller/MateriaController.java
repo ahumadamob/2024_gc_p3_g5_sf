@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/materia")
 public class MateriaController {
@@ -37,6 +38,17 @@ public class MateriaController {
 			return ResponseUtil.success(materias);
 		}
 	}
+
+    @GetMapping("/promocionales")
+    public ResponseEntity<APIResponse<List<Materia>>> obtenerMateriasPromocionales() {
+        List<Materia> materias = materiaService.obtenerMateriasPromocionales();
+        if (materias.isEmpty()) {
+            return ResponseUtil.notFound("No se encontraron materias promocionales.");
+        } else {
+            return ResponseUtil.success(materias);
+        }
+    }
+    
 
     @PostMapping
     public ResponseEntity<APIResponse<Materia>> crearMateria(@RequestBody Materia materia) {
